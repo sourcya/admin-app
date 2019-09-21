@@ -1,0 +1,8 @@
+{
+  "appId": "io.sourcya.myApp.app",
+  "appName": "sourcya-ionic4-starter",
+  "bundledWebRuntime": false,
+  "webDir": "www",
+  "linuxAndroidStudioPath": "/android-studio/bin/studio.sh",
+  "npmClient": "npm"
+}

@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{agent.agents}}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="page">
+      <ion-segment-button value="0" (click)="selectedTab(0)">
+        {{agent.Pending}}
+      </ion-segment-button>
+      <ion-segment-button value="1" (click)="selectedTab(1)">
+        {{agent.decline}}
+      </ion-segment-button>
+      <ion-segment-button value="2" (click)="selectedTab(2)">
+        {{agent.approve}}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-slides #slider (ionSlideWillChange)="moveButton()">
+
+    <ion-slide>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col size-md="8" size-xs="12">
+            <ion-list *ngIf="Pending">
+              <ion-item lines="full" padding-top *ngFor="let p of Pending">
+                <ion-label> {{p.user.first_name}} {{p.user.last_name}}</ion-label>
+                <ion-button (click)="declineAgent(p.code)" type="submit" color="danger"> {{agent.decline}} </ion-button>
+                <ion-button (click)="approveAgent(p.code)" type="submit"> {{agent.approve}} </ion-button>
+              </ion-item>
+            </ion-list>
+            <ion-row justify-content-center text-center>
+              <ion-col size-xs="10" size-md="8" text-center>
+                <ion-card margin *ngIf="agentErrorPending">
+                  <ion-card-content>
+                    <ion-list>  
+                      <ion-label color="danger"> {{agentErrorPending}}</ion-label>
+                    </ion-list>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col size-md="8" size-xs="12">
+            <ion-list *ngIf="decline">
+              <ion-item lines="full" padding-top *ngFor="let d of decline" routerLink="/admin/user/{{d.user.id}}">
+                <ion-label> {{d.user.first_name}} {{d.user.last_name}}</ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-row justify-content-center text-center>
+              <ion-col size-xs="10" size-md="8" text-center>
+                <ion-card margin *ngIf="agentErrorDecline">
+                  <ion-card-content>
+                    <ion-list>
+                      <ion-label color="danger"> {{agentErrorDecline}}</ion-label>
+                    </ion-list>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col size-md="8" size-xs="12">
+            <ion-list *ngIf="approve">
+              <ion-item lines="full" padding-top *ngFor="let a of approve" routerLink="/admin/user/{{a.user.id}}">
+                <ion-label> {{a.user.first_name}} {{a.user.last_name}}</ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-row justify-content-center text-center>
+              <ion-col size-xs="12" size-md="4" text-center>
+                <ion-card margin *ngIf="agentErrorApprove">
+                  <ion-card-content>
+                    <ion-list>
+                      <ion-label color="danger"> {{agentErrorApprove}}</ion-label>
+                    </ion-list>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>

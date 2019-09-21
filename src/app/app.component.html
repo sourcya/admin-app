@@ -1,0 +1,84 @@
+<ion-app [dir]="direction">
+  <!-- TOO CREATE SIDE MENU -->
+  <ion-split-pane when="true">
+    <ion-menu [side]="menuDir">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{'sideMenu-menu' | translate}}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-grid *ngIf="auth.isLoggedIn()">
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/profile">
+              <ion-avatar slot="start">
+                <ion-icon color="medium" id="contact" name="contact"></ion-icon>
+              </ion-avatar>
+              <ion-label>{{userName}}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-grid>
+        <ion-grid>
+          <ion-row justify-content-end align-items-end>
+            <ion-col align-self-end>
+              <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
+                <ion-item lines="none" [routerLink]="p.url" routerDirection="root"
+                  [class.active-item]="selectedPath.startsWith(p.url)">
+                  <ion-icon color="primary" [name]="p.icon" slot="start"></ion-icon>
+                  <ion-label>
+                    {{ p.title | translate }}
+                  </ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+
+              <ion-menu-toggle auto-hide="false" >
+                  <ion-item lines="none"  routerDirection="root" (click)="agent()">
+                    <ion-icon color="primary" name="bicycle" slot="start"></ion-icon>
+                    <ion-label>
+                      {{ 'agent' | translate }}
+                    </ion-label>
+                  </ion-item>
+                </ion-menu-toggle>
+
+
+              <ion-menu-toggle auto-hide="false" >
+                <ion-item lines="none"  routerDirection="root" (click)="admin()">
+                  <ion-icon color="primary" name="person" slot="start"></ion-icon>
+                  <ion-label>
+                    {{ 'admin' | translate }}
+                  </ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+
+              <ion-menu-toggle auto-hide="false">
+                <ion-item lines="none">
+                  <ion-icon color="primary" slot="start" name="globe"></ion-icon>
+                  <ion-label>{{ 'sideMenu-language' | translate }}</ion-label>
+                  <ion-select okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}"
+                    [(ngModel)]="selectedLanguage" (ionChange)="changeLanguage()">
+                    <ion-select-option value="en">{{'sideMenu-language-EN' | translate}}</ion-select-option>
+                    <ion-select-option value="ar">{{'sideMenu-language-AR' | translate}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-menu-toggle>
+              <ion-menu-toggle auto-hide="false">
+                <ion-item lines="none" tappable (click)="logOut()" routerDirection="root">
+                  <ion-icon color="primary" name="log-out" slot="start"></ion-icon>
+                  {{'sideMenu-logout' | translate}}
+                </ion-item>
+              </ion-menu-toggle>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="content" main></ion-router-outlet>
+  </ion-split-pane>
+  <ion-fab *ngIf="auth.isLoggedIn()" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button size="small" color="primary">
+      <ion-toolbar color="primary">
+        <ion-menu-button color="light"></ion-menu-button>
+      </ion-toolbar>
+    </ion-fab-button>
+  </ion-fab>
+</ion-app>

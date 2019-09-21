@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{'edit-city'|translate}}</ion-title>
+    <ion-icon style="cursor: pointer;" slot="end" name="close" (click)="cancel()" padding-end></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form #cityForm="ngForm" (ngSubmit)="editCity()">
+    <ion-grid *ngIf="countries">
+      <ion-row justify-content-center>
+        <ion-col align-self-left size-md="6" size-lg="5" size-xs="12">
+          <ion-item padding-top>
+            <ion-select placeholder="{{'address-country' | translate}}" name="country" [(ngModel)]="countryId"
+              okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}" required padding-start
+              (ionChange)="changeCountry($event)">
+              <ion-select-option *ngFor="let country of countries" [value]="country.id">{{country.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked"> {{'address-state' | translate}} : </ion-label>
+            <p *ngIf="stateName"> {{stateName}} </p>
+            <ion-select [(ngModel)]="stateId" (ionChange)="changeStates($event)"
+              placeholder="{{'select-one' | translate}}" ngModel name="state_id" okText="{{'ok' | translate}}"
+              cancelText="{{'cancel' | translate}}" padding-start>
+              <ion-select-option *ngFor="let state of states" [value]="state.id">{{state.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked"> {{'address-city' | translate}} : </ion-label>
+            <ion-input name="name" type="text" [(ngModel)]="cityName" required padding-start minlength="3">
+            </ion-input>
+          </ion-item>
+
+
+          <ion-row>
+            <ion-col>
+              <ion-button color="primary" [disabled]='!cityForm.valid ' size="large" type="submit" expand="block">
+                {{'save'|translate}}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>

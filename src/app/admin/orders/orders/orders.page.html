@@ -1,0 +1,178 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{dataShow.orders}}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="page">
+      <ion-segment-button value="0" (click)="selectedTab(0)">
+        {{dataShow.inProgress}}
+      </ion-segment-button>
+      <ion-segment-button value="1" (click)="selectedTab(1)">
+        {{dataShow.draft}}
+      </ion-segment-button>
+      <ion-segment-button value="2" (click)="selectedTab(2)">
+        {{dataShow.finished}}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-slides #slider (ionSlideWillChange)="moveButton()">
+    <ion-slide>
+      <ion-grid>
+        <ion-row>
+          <ion-col size-xs="12" size-md="4" *ngFor="let order of inProgress">
+            <ion-card routerLink="/my-orders/{{order.code}}/order-track">
+              <ion-card-header color="medium">
+                <ion-card-subtitle>
+                  <ion-row>
+                    <ion-col size-xs="12" size-md="4">
+                      <ion-chip outline color="medium">
+                        <ion-label color="secondary">{{'code'|translate}}:</ion-label>
+                        <ion-label color="primary">{{order.code}}</ion-label>
+                      </ion-chip>
+                    </ion-col>
+                    <ion-col size-xs="12" size-md="12">
+                      <ion-chip outline>
+                        <ion-label color="danger">{{order.status}}</ion-label>
+                      </ion-chip>
+                      <ion-chip outline>
+                        <ion-label color="primary">{{order.price}}</ion-label>
+                      </ion-chip>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-item lines="none">
+                      <ion-label><ion-icon name="calendar" size="small"
+                          color="primary"></ion-icon> {{order.date}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-item lines="none">
+                      <ion-label><ion-icon name="cash" size="small"
+                          color="primary"></ion-icon> {{order.billing}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid>
+        <ion-row>
+          <ion-col size-xs="12" size-md="4" *ngFor="let order of draft">
+            <ion-card routerLink="/my-orders/{{order.code}}/order-track">
+              <ion-card-header color="medium">
+                <ion-card-subtitle>
+                  <ion-row>
+                    <ion-col size-xs="12" size-md="4">
+                      <ion-chip outline color="medium">
+                        <ion-label color="secondary">{{'code'|translate}}:</ion-label>
+                        <ion-label color="primary">{{order.code}}</ion-label>
+                      </ion-chip>
+                    </ion-col>
+                    <ion-col size-xs="12" size-md="12">
+                      <ion-chip outline>
+                        <ion-label color="danger">{{order.status}}</ion-label>
+                      </ion-chip>
+                      <ion-chip outline>
+                        <ion-label color="primary">{{order.price}}</ion-label>
+                      </ion-chip>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-item lines="none">
+                      <ion-label><ion-icon name="calendar" size="small"
+                          color="primary"></ion-icon> {{order.date}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-item lines="none">
+                      <ion-label><ion-icon name="cash" size="small"
+                          color="primary"></ion-icon> {{order.billing}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid>
+        <ion-row>
+          <ion-col size-xs="12" size-md="4" *ngFor="let order of finished">
+            <ion-card routerLink="/my-orders/{{order.code}}/order-track">
+              <ion-card-header color="medium">
+                <ion-card-subtitle>
+                  <ion-row>
+                    <ion-col size-xs="12" size-md="4">
+                      <ion-chip outline color="medium">
+                        <ion-label color="secondary">{{'code'|translate}}:</ion-label>
+                        <ion-label color="primary">{{order.code}}</ion-label>
+                      </ion-chip>
+                    </ion-col>
+                    <ion-col size-xs="12" size-md="12">
+                      <ion-chip outline>
+                        <ion-label color="danger">{{order.status}}</ion-label>
+                      </ion-chip>
+                      <ion-chip outline>
+                        <ion-label color="primary">{{order.price}}</ion-label>
+                      </ion-chip>
+                    </ion-col>
+                  </ion-row>
+                </ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-item lines="none">
+                      <ion-label><ion-icon name="calendar" size="small"
+                          color="primary"></ion-icon> {{order.date}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-item lines="none">
+                      <ion-label><ion-icon name="cash" size="small"
+                          color="primary"></ion-icon> {{order.billing}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed"
+    routerLink="/admin/orders/add">
+    <ion-fab-button size="small" mini>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button size="small" mini>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

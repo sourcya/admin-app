@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="auth"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'register'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-grid>
+  <form (ngSubmit)="register()" #registerForm="ngForm">
+    <ion-row justify-content-center>
+      <ion-col size="3">
+        <ion-item>
+          <ion-input type="text" minlength="3" name="first_name" required ngModel #fname="ngModel"
+            placeholder="{{'first-name'|translate}}">
+          </ion-input>
+          <ion-icon color="success" name="checkmark-circle" *ngIf="fname.valid && fname.dirty"></ion-icon>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="3">
+        <ion-item>
+          <ion-input type="text" name="last_name" minlength="3" required ngModel #lname="ngModel"
+            placeholder="{{'last-name'|translate}}">
+          </ion-input>
+          <ion-icon color="success" name="checkmark-circle" *ngIf="lname.valid && lname.dirty"></ion-icon>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row justify-content-center>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input type="email"
+            pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+            maxlength="255" name="email" email #email="ngModel" required ngModel
+            placeholder="{{'email'|translate}}">
+          </ion-input>
+          <ion-icon color="success" name="checkmark-circle" *ngIf="email.valid && email.dirty"></ion-icon>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row justify-content-center>
+      <ion-col size="3">
+        <ion-item>
+          <ion-input type="password" name="password" minlength="8" #password="ngModel" required ngModel
+            placeholder="{{'password'|translate}}">
+          </ion-input>
+          <ion-icon color="success" name="checkmark-circle" *ngIf="password.valid && password.dirty"></ion-icon>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="3">
+        <ion-item>
+          <ion-input type="password" minlength="8" name="password_confirmation" Equalvalidate="password"
+            #passwordconfirm="ngModel" required ngModel placeholder="{{'confirm-password'|translate}}">
+          </ion-input>
+          <ion-icon color="success" name="checkmark-circle" *ngIf="passwordconfirm.valid"></ion-icon>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row margin-top padding-bottom justify-content-center>
+      <ion-col size="6">
+        <ion-button expand="full" size="large" type="submit" color="primary" [disabled]='!registerForm.valid'>
+          {{'register-create-account'|translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </form>
+</ion-grid>
+</ion-content>

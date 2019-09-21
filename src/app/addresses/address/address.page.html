@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/addresses"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'address'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form #address="ngForm">
+    <ion-grid *ngIf="data && countries && states">
+      <ion-row justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="8" size-xs="12">
+
+          <ion-item padding-top>
+            <ion-label color="dark" position="stacked">{{dataShow.title}} :</ion-label>
+            <ion-input type="text" name="title" #title="ngModel" [(ngModel)]="data.title" minlength="3" required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{dataShow.country}} :</ion-label>
+            <ion-select (ionChange)="changeCountry($event)" name="country" [(ngModel)]="data.country"
+              okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}" #country="ngModel" required
+              padding-start>
+              <ion-select-option *ngFor="let country of countries" [value]="country">{{country}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{dataShow.state}} :</ion-label>
+            <ion-select (ionChange)="changeStates($event)" [(ngModel)]="data.state" name="state" okText="{{'ok' | translate}}"
+              cancelText="{{'cancel' | translate}}" #state="ngModel" padding-start>
+              <ion-select-option *ngFor="let state of states" [value]="state">{{state}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{dataShow.city}} :</ion-label>
+            <p *ngIf="! cities"> {{'address-no-city'|translate}} </p>
+            <ion-select *ngIf="cities" #city="ngModel" [(ngModel)]="data.city" okText="{{'ok' | translate}}"
+              cancelText="{{'cancel' | translate}}" name="city" placeholder="{{dataShow.city}}" padding-start>
+              <ion-select-option *ngFor="let city of cities" [value]="city.name">{{city.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{dataShow.street}} :</ion-label>
+            <ion-input type="text" name="street" #street="ngModel" [(ngModel)]="data.street" required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{dataShow.postal_code}} :</ion-label>
+            <ion-input type="text" name="postal_code" #postal_code="ngModel" [(ngModel)]="data.postal_code" required
+              minlength="3"></ion-input>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{dataShow.district}} :</ion-label>
+            <ion-input type="text" name="district" #district="ngModel" [(ngModel)]="data.district"></ion-input>
+          </ion-item>
+
+          <ion-item padding-top padding-bottom>
+            <ion-label position="stacked">{{dataShow.building_num}} :</ion-label>
+            <ion-input type="text" name="building_num" #building_num="ngModel" [(ngModel)]="data.building_num">
+            </ion-input>
+          </ion-item>
+
+          <ion-row justify-content-center>
+            <ion-col align-self-center size-md="6" size-lg="8" size-xs="12">
+              <ion-col>
+                <ion-button (click)="edit(address)" color="primary" type="submit">
+                  {{'address-update'|translate}}
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button (click)="deleteAddress()" color="danger" type="submit">
+                  {{'delete'|translate}}
+                </ion-button>
+              </ion-col>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+
+</ion-content>

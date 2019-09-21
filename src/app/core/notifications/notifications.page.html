@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'Notifications'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Custom Refresher Content -->
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
+    <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+  <ion-grid *ngIf="dataListPagination.length>=1">
+    <ion-row justify-content-right>
+      <ion-col size-xs="3" offset-xs="8" text-right>
+        <ion-button size="small" (click)="readAll()">{{'readAll'|translate}}</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-list>
+      <ion-item lines="full" *ngFor="let not of dataListPagination"
+        (click)="readNotification(not.id,not.notification.targetId,not.notification.actionVerb)"
+        [ngClass]=" not.read_at ? 'read' : 'unread'" padding-top>
+        <ion-icon ios="ios-mail" md="md-mail" *ngIf="!not.read_at" padding-end></ion-icon>
+        <ion-icon ios="ios-mail-open" md="md-mail-open" *ngIf="not.read_at " padding-end></ion-icon>
+        <ion-label text-wrap> {{not.notification.body}}</ion-label>
+        <ion-label text-right> {{not.created_at| date: "MMM dd, yyyy"}}</ion-label>
+      </ion-item>
+    </ion-list>
+
+  </ion-grid>
+
+
+  <ion-grid *ngIf="errorMsg">
+    <ion-row justify-content-center text-center>
+      <ion-col size-xs="10" size-md="8" text-center>
+        <ion-card>
+          <ion-card-content>
+            <ion-list>
+              <ion-label color="danger">{{errorMsg}} </ion-label>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataPagination($event)">
+    <ion-infinite-scroll-content loadingText="{{'Loading-more-data'|translate}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+
+
+</ion-content>

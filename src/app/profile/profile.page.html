@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'profile'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Custom Refresher Content -->
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
+    <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <form (ngSubmit)="updateProfile()" #ProfileInfoUpdate="ngForm">
+    <ion-grid *ngIf="info">
+      <ion-row justify-content-center>
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{'first-name' |translate}}</ion-label>
+            <ion-input type="text" name="first_name" [(ngModel)]="info.first_name" ></ion-input>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{'last-name' |translate}}</ion-label>
+            <ion-input type="text" name="last_name" [(ngModel)]="info.last_name" ></ion-input>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{'email' |translate}}</ion-label>
+            <ion-input type="email" name="email" [(ngModel)]="info.email" ></ion-input>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label position="stacked">{{'password' |translate}}</ion-label>
+            <ion-input type="password" name="password" #password="ngModel" ngModel minlength="8" required></ion-input>
+          </ion-item>
+
+          <ion-item padding-top padding-bottom>
+            <ion-label position="stacked">{{'confirm-password' |translate}}</ion-label>
+            <ion-input type="password" name="password_confirmation" #password_confirmation="ngModel"  ngModel minlength="8" required></ion-input>
+          </ion-item>
+
+          <ion-button expand="full" color="primary" size="large" type="submit">
+            {{'profile-update' |translate}} </ion-button>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>

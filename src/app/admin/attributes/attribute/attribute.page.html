@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/attributes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'attribute'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form #attribute="ngForm">
+    <ion-grid *ngIf="data"> 
+      <ion-row justify-content-center>
+        <ion-col size-md="9" size-lg="8" size-xs="12">
+
+          <ion-item padding-top>
+            <ion-label>{{dataShow.name}} : </ion-label>
+            <ion-input name="name" type="text" [(ngModel)]="data.attribute" required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label>{{dataShow.type}} : </ion-label>
+            <ion-select [(ngModel)]="data.type" name="type" placeholder="{{'select-one' | translate}}" okText="{{'ok' | translate}}"
+              cancelText="{{'cancel' | translate}}" required>
+              <ion-select-option *ngFor="let t of type" [value]="t.name">{{t.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label>{{dataShow.assigned_for}} : </ion-label>
+            <ion-select [(ngModel)]="data.assigned_for" name="assigned_for" placeholder="{{'select-one' | translate}}"
+              okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}" required padding-start>
+              <ion-select-option *ngFor="let a of assigned_for" [value]="a.name">{{a.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item padding-top>
+            <ion-label>
+              {{dataShow.is_required}} :
+            </ion-label>
+            <ion-radio-group [(ngModel)]="data.is_required" name="is_required">
+              <ion-item lines="none">
+                <ion-label>{{is_required.yes}}</ion-label>
+                <ion-radio slot="start" value='1'  ></ion-radio>
+              </ion-item>
+
+              <ion-item lines="none">
+                <ion-label>{{is_required.no}}</ion-label>
+                <ion-radio slot="start" value='0'></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-item>
+
+          <ion-item padding-top padding-bottom>
+            <ion-list>
+              <ion-label>
+                {{dataShow.keys}} :
+              </ion-label>
+              <ion-item color="light" *ngFor="let count of data.keys; let idx = index" padding-top padding-bottom>
+                <ion-input name="keys[{{idx}}]" type="text" [(ngModel)]="count" required></ion-input>
+              </ion-item>
+              <ion-buttons>
+                <ion-icon slot="end" color="primary" name="add-circle-outline" (click)="addKeys()"></ion-icon>
+              </ion-buttons>
+            </ion-list>
+          </ion-item>
+
+          <ion-row justify-content-center>
+            <ion-col  align-self-center size-md="6" size-lg="5" size-xs="12">
+              <ion-col>
+                <ion-button color="primary" (click)="edit(attribute)" disabled type="submit">
+                  {{'attribute-update'|translate}}
+                </ion-button>
+              </ion-col>
+
+              <ion-col>
+                <ion-button (click)="deleteAttribute()" color="danger" type="submit">
+                  {{'delete'|translate}}
+                </ion-button>
+              </ion-col>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>

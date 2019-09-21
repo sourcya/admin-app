@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/users"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{dataShow.user}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+   <!-- Custom Refresher Content -->
+   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
+      <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
+      </ion-refresher-content>
+    </ion-refresher>
+
+  <ion-grid *ngIf="data">
+    <form #userForm="ngForm">
+      <ion-row justify-content-center>
+        <ion-col align-self-left size-md="6" size-lg="5" size-xs="12">
+
+          <ion-row justify-content-center>
+            <ion-col size="6">
+              <ion-item>
+                <ion-input type="text" minlength="3" name="first_name" required [(ngModel)]="data.first_name"
+                  #fname="ngModel" placeholder="{{dataShow.firstName}}">
+                </ion-input>
+                <!-- <ion-icon color="success" name="checkmark-circle" *ngIf="fname.valid && fname.dirty"></ion-icon> -->
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-item>
+                <ion-input type="text" name="last_name" minlength="3" required [(ngModel)]="data.last_name"
+                  #lname="ngModel" placeholder="{{dataShow.lastName}}">
+                </ion-input>
+                <!-- <ion-icon color="success" name="checkmark-circle" *ngIf="lname.valid && lname.dirty"></ion-icon> -->
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row justify-content-center>
+            <ion-col size="12">
+              <ion-item>
+                <ion-input type="email"
+                  pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+                  maxlength="255" name="email" email #email="ngModel" required [(ngModel)]="data.email"
+                  placeholder="{{dataShow.email}}">
+                </ion-input>
+                <!-- <ion-icon color="success" name="checkmark-circle" *ngIf="email.valid && email.dirty"></ion-icon> -->
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">{{dataShow.selectRoles}} : </ion-label>
+                <div *ngFor="let value of data.roles">
+                  <p>{{value}}</p>
+                </div>
+                <ion-select name="roles" ngModel okText="{{dataShow.ok}}" cancelText="{{dataShow.cancel}}"
+                  multiple="true">
+                  <ion-select-option *ngFor="let role of Roles" [value]="role">{{role}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row margin-top padding-bottom>
+            <ion-col col-8 offset-2>
+              <ion-button type="submit" color="primary" (click)="edit(userForm)" routerLink="/admin/users">
+                {{dataShow.update}}</ion-button>
+            </ion-col>
+
+            <ion-col col-8 offset-2>
+              <ion-button color="danger" type="submit" (click)="deleteUser()" routerLink="/admin/users">
+                {{'delete' | translate}}</ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+
+</ion-content>

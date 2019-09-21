@@ -1,0 +1,16 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+ <ion-icon  style="cursor: pointer;" slot="end" name="close" (click)="cancel()" padding-end></ion-icon>
+  </ion-toolbar>   
+</ion-header>
+<ion-content padding>
+<ion-grid>
+  <ion-row>
+    <ion-searchbar animated (ionBlur)="search()"
+      placeholder="Search" color="primary"
+      cancelButtonText="Custom Cancel"></ion-searchbar>
+  </ion-row>
+</ion-grid>
+
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "sourcya-ionic-angular-boilerplat",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
