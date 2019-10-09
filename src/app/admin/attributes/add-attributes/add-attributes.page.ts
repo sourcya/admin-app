@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AdminService } from '../../services/admin.service';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { NgForm } from '@angular/forms';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AttributesService } from '../services/attributes.service';
 
 @Component({
   selector: 'app-add-attributes',
@@ -64,7 +64,7 @@ export class AddAttributesPage implements OnInit {
   keys=[];
 
   constructor(private translate: TranslateService,
-    private adminService: AdminService,
+    private attributesService: AttributesService,
     private tosat: ToastService, private router: Router,
     public modalController: ModalController,
     private loadingController: LoadingController, ) { }
@@ -100,7 +100,7 @@ export class AddAttributesPage implements OnInit {
       keys: this.keys,
     };
 
-      this.adminService.postAttributes(data).subscribe(res => {
+      this.attributesService.postAttributes(data).subscribe(res => {
         loading.dismiss();
         this.tosat.show(res['message']);
 

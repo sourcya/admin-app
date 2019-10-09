@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AdminService } from '../services/admin.service';
 import { AddAttributesPage } from './add-attributes/add-attributes.page';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AttributesService } from './services/attributes.service';
 
 @Component({
   selector: 'app-attributes',
@@ -26,7 +26,7 @@ export class AttributesPage implements OnInit {
 
   
   constructor(private translate: TranslateService,
-    private adminService: AdminService, public router: Router,
+    private attributesService: AttributesService, public router: Router,
     public modalController: ModalController,
     private loadingController: LoadingController,) { }
 
@@ -43,7 +43,7 @@ export class AttributesPage implements OnInit {
       message: this.translate.instant('loading')
     }).then((loading) => {
       loading.present();
-      this.adminService.getAllAttributes(this.page).subscribe(res => {
+      this.attributesService.getAllAttributes(this.page).subscribe(res => {
         // console.log(res);
         this.response = res;
 
@@ -76,7 +76,7 @@ export class AttributesPage implements OnInit {
   }
 
   getPosts(page) {
-    this.adminService.getAllAttributes(page).subscribe(res => {
+    this.attributesService.getAllAttributes(page).subscribe(res => {
       // console.log(res);
       this.response = res;
 
@@ -130,7 +130,7 @@ export class AttributesPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.attributesError = null;
-    this.adminService.getAllAttributes(this.page).subscribe(res => {
+    this.attributesService.getAllAttributes(this.page).subscribe(res => {
       // console.log(res);
       this.response = res;
 

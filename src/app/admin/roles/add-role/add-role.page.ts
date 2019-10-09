@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { RoleService } from '../service/role.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { Router } from '@angular/router';
 
@@ -27,10 +27,19 @@ export class AddRolePage implements OnInit {
     public roleService: RoleService,
     private loadingController: LoadingController,
     private toast: ToastService,
-    private router:Router
+    private router:Router,
+    public modalController: ModalController
   ) {}
 
   ngOnInit() {}
+
+
+  cancel() {
+    this.modalController.dismiss({
+      'dismissed': true
+    });
+  }
+  
   ionViewWillEnter() {
     this.loadingController.create({
       message: this.translate.instant('loading')

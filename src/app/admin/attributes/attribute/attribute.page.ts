@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AdminService } from '../../services/admin.service';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AttributesService } from '../services/attributes.service';
 
 @Component({
   selector: 'app-attribute',
@@ -56,7 +56,7 @@ export class AttributePage implements OnInit {
   data: any;
 
   constructor(private translate: TranslateService,
-    private adminService: AdminService,
+    private attributesService: AttributesService,
     private loadingController: LoadingController,
     private toast: ToastService, private alertCtrl: AlertController,
     private route: ActivatedRoute,
@@ -83,10 +83,9 @@ export class AttributePage implements OnInit {
 
     this.loadingController.create({
       message: this.translate.instant("loading")
-    })
-      .then(loading => {
+    }).then(loading => {
         loading.present();
-        this.adminService.getAtrributeId(this.attributeId).subscribe(res => {
+        this.attributesService.getAtrributeId(this.attributeId).subscribe(res => {
           this.data = res["data"];
           this.num = this.data.keys.length;
           console.log(this.data);
@@ -120,7 +119,7 @@ export class AttributePage implements OnInit {
         keys: this.keys,
       };
 
-      this.adminService.updateAtrributeId(this.attributeId, data).subscribe(res => {
+      this.attributesService.updateAtrributeId(this.attributeId, data).subscribe(res => {
         loading.dismiss();
 
         this.toast.show(res['message']);
@@ -155,7 +154,7 @@ export class AttributePage implements OnInit {
             }).then((loading) => {
               loading.present();
 
-              this.adminService.deleteAtrributeId(this.attributeId).subscribe(res => {
+              this.attributesService.deleteAtrributeId(this.attributeId).subscribe(res => {
                 loading.dismiss();
                 this.toast.show(res['message']);
                 this.router.navigate(['/admin/attributes'])

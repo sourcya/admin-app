@@ -27,16 +27,19 @@
     "password":"كلمة السر",
     "confirm-password":"تأكيد كلمة السر",
 
-    "register":"تسجيل",
+    "register":"إنشاء حساب",
     "register-create-account":"انشاء حســاب",
     "register-valid":"عملية تسجيل ناجحة",
     "register-invalid":"البيانات خظأ",
-   
+    "Questionss":"هل لديك حساب ؟",
     
-    "login":"دخول",
+    "login":"تسجيل دخول",
     "login-invalid":"البريد الإلكترونى أو كلمة السر غير صحيحة",
     "login-error":"هناك خطأ داخلى ف السيرفير",
     "login-valid":"عملية دخول ناجحة",
+    "login-email": "البريد الإلكتروني",
+    "login-password": "كلمة المرور",
+    "Question":"ليس لديك حساب ؟",
 
     "sideMenu-menu" : "القـائمـة",
     "sideMenu-home":"الصفحة الرئيسية",
@@ -62,6 +65,8 @@
     "profile":"حسابى",
     "profile.userInformations":"معلومات المستخدم",
     "profile-update":"تحديث الملف الشخصي",
+    "edit-profile":"تعديل الملف الشخصى",
+    "personal":"بيانات شخصية",
 
     "addresses":"عناوين",
     "address-title":"العنوان",
@@ -171,8 +176,12 @@
     "finished":"تم الانتهاء",
     "draft":"تحت الأنشاء",
     "role-message":"حذف صلاحيه؟",
-     "roles-Error":"لا يوجد صلاحيات",
-     "orders":"الطلبات"
+    "roles-Error":"لا يوجد صلاحيات",
+    "orders":"الطلبات",
+
+    "logout-message":"الخروج من ؟",
+    "allDevice":"كل الاجهزة",
+    "thisDevice":"هذا الجهاز"
 
 
 }

@@ -1,0 +1,25 @@
+
+.active-item{
+    font-weight: 500;
+    --ion-text-color: var(--ion-color-primary);
+ 
+    ion-icon {
+        --ion-text-color: var(--ion-color-primary);
+    }
+}
+
+.sub-item {
+    font-size: small;
+}
+
+#contact{
+    height: 40px;
+    width: 50px;
+}
+ion-item{
+    cursor: pointer;
+}
+
+ion-select{
+    max-width: 100% !important;
+}

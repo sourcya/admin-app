@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/users"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'user'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Custom Refresher Content -->
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
+    <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+  <ion-grid *ngIf="dataRes">
+    <ion-row justify-content-center>
+      <ion-col align-self-center size-md="6" size-lg="8" size-xs="12">
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{dataRes?.email}}
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-row>
+              <ion-card-content>
+                  {{dataRes?.first_name}} {{dataRes?.last_name}}
+              </ion-card-content>
+            </ion-row>
+
+            <ion-row>
+              <ion-card-content *ngFor="let role of dataRes.roles">
+               {{role}}
+              </ion-card-content>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-chip color="tertiary" (click)="addresses()">
+                  <ion-icon name="pin" color="tertiary"></ion-icon>
+                  <ion-label color="tertiary"> {{'addresses'|translate}}</ion-label>
+                </ion-chip>
+              </ion-col>
+              <ion-col>
+                <ion-chip color="tertiary" (click)="contacts()">
+                  <ion-icon name="call" color="tertiary"></ion-icon>
+                  <ion-label color="tertiary">{{'contacts'|translate}}</ion-label>
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+
+            <ion-row justify-content-center  margin-top padding-bottom>
+                <ion-col  align-self-center size-md="6" size-lg="5" size-xs="12">
+                  <ion-col>
+                    <ion-button color="primary" (click)="edit()" type="submit" expand="" size="small">
+                      {{'edit'|translate}}
+                    </ion-button>
+                  </ion-col>
+    
+                  <ion-col>
+                    <ion-button (click)="delete()" color="danger" type="submit" expand="" size="small">
+                      {{'delete'|translate}}
+                    </ion-button>
+                  </ion-col>
+                </ion-col>
+              </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>

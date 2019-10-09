@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { AdminService } from '../services/admin.service';
 import { ToastService } from 'src/app/lib/services/toast.service';
+import { NotificationsService } from './services/notifications.service';
 
 @Component({
   selector: 'app-notifications',
@@ -23,7 +23,7 @@ export class NotificationsPage implements OnInit {
   response: any;
 
   constructor(
-    private adminServices: AdminService,
+    private notificationsServices: NotificationsService,
     private toast: ToastService,
     public router: Router,
     private translate: TranslateService,
@@ -43,7 +43,7 @@ export class NotificationsPage implements OnInit {
     }).then((loading) => {
       loading.present();
 
-      this.adminServices.getNotification(this.page).subscribe(res => {        
+      this.notificationsServices.getNotification(this.page).subscribe(res => {        
         this.response = res;
 
         let resp: any = res['data'];
@@ -69,7 +69,7 @@ export class NotificationsPage implements OnInit {
 
 
   getAllNotification(page) {
-    this.adminServices.getNotification(page).subscribe(res => {
+    this.notificationsServices.getNotification(page).subscribe(res => {
       this.response = res;
 
       let resp: any = res['data'];
@@ -94,13 +94,13 @@ export class NotificationsPage implements OnInit {
     }).then((loading) => {
       loading.present();
 
-      this.adminServices.readNotification(id, 'notification').subscribe(res => {
+      this.notificationsServices.readNotification(id, 'notification').subscribe(res => {
         let resp: any = res;
         this.data = resp['data'];
         // console.log(id,idTask,actionVerb);
 
         this.dataListPagination = [];
-        this.adminServices.getNotification(this.page).subscribe(info => {
+        this.notificationsServices.getNotification(this.page).subscribe(info => {
           this.response = info;
 
           let resp: any = info['data'];
@@ -135,12 +135,12 @@ export class NotificationsPage implements OnInit {
     }).then((loading) => {
       loading.present();
 
-      this.adminServices.readAllNotification('read all notifications').subscribe(res => {
+      this.notificationsServices.readAllNotification('read all notifications').subscribe(res => {
         let resp: any = res;
         this.data = resp['data'];
 
         this.dataListPagination = [];
-        this.adminServices.getNotification(this.page).subscribe(res => {
+        this.notificationsServices.getNotification(this.page).subscribe(res => {
           this.response = res;
 
           let resp: any = res['data'];
@@ -206,7 +206,7 @@ export class NotificationsPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.errorMsg = null;
-    this.adminServices.getNotification(this.page).subscribe(res => {
+    this.notificationsServices.getNotification(this.page).subscribe(res => {
       this.response = res;
 
       let resp: any = res['data'];

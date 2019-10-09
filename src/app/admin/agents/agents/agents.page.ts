@@ -1,15 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  IonSlides,
-  IonContent,
-  ModalController,
-  AlertController,
-  LoadingController
-} from '@ionic/angular';
+import { IonSlides,IonContent,ModalController,AlertController,LoadingController} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../../services/admin.service';
 import { ToastService } from 'src/app/lib/services/toast.service';
+import { AgentsService } from '../services/agents.service';
 
 @Component({
   selector: 'app-agents',
@@ -42,7 +36,7 @@ export class AgentsPage implements OnInit {
     private translate: TranslateService,
     public modalController: ModalController,
     public router: Router,
-    private adminService: AdminService,
+    private agentsServices: AgentsService,
     public alertController: AlertController,
     private loadingController: LoadingController,
     private toast: ToastService
@@ -73,22 +67,22 @@ export class AgentsPage implements OnInit {
     }).then((loading) => {
       loading.present();
 
-      this.adminService.getAgent().subscribe(res => {
-        
+      this.agentsServices.getAgent().subscribe(res => {
+
         this.data = res['data'];
         this.Pending = this.data.filter(it => it.status === 'Pending');
         this.approve = this.data.filter(it => it.status === 'Approved');
         this.decline = this.data.filter(it => it.status === 'Declined');
 
-        if(this.Pending.length == 0){
+        if (this.Pending.length == 0) {
           this.agentErrorPending = this.translate.instant('gent-ErrorPending');
         }
-        
-        if(this.approve.length == 0){
+
+        if (this.approve.length == 0) {
           this.agentErrorApprove = this.translate.instant('gent-ErrorApprove');
         }
 
-        if(this.decline.length == 0){
+        if (this.decline.length == 0) {
           this.agentErrorDecline = this.translate.instant('gent-ErrorDecline');
         }
 
@@ -96,7 +90,7 @@ export class AgentsPage implements OnInit {
       }, err => {
         loading.dismiss();
 
-        
+
       })
     });
   }
@@ -108,23 +102,23 @@ export class AgentsPage implements OnInit {
     }).then((loading) => {
       loading.present();
 
-      this.adminService.postAgentDecline(code).subscribe(dec => {
+      this.agentsServices.postAgentDecline(code).subscribe(dec => {
 
-        this.adminService.getAgent().subscribe(res => {
+        this.agentsServices.getAgent().subscribe(res => {
           this.data = res['data'];
           this.Pending = this.data.filter(it => it.status === 'Pending');
           this.approve = this.data.filter(it => it.status === 'Approved');
           this.decline = this.data.filter(it => it.status === 'Declined');
 
-          if(this.Pending.length == 0){
+          if (this.Pending.length == 0) {
             this.agentErrorPending = this.translate.instant('gent-ErrorPending');
           }
-          
-          if(this.approve.length == 0){
+
+          if (this.approve.length == 0) {
             this.agentErrorApprove = this.translate.instant('gent-ErrorApprove');
           }
-  
-          if(this.decline.length == 0){
+
+          if (this.decline.length == 0) {
             this.agentErrorDecline = this.translate.instant('gent-ErrorDecline');
           }
 
@@ -133,7 +127,7 @@ export class AgentsPage implements OnInit {
 
         }, err => {
           loading.dismiss();
-          
+
         })
       }, errs => {
         loading.dismiss();
@@ -143,29 +137,29 @@ export class AgentsPage implements OnInit {
   }
 
 
-  approveAgent(code){
+  approveAgent(code) {
     this.loadingController.create({
       message: this.translate.instant('loading')
     }).then((loading) => {
       loading.present();
 
-      this.adminService.postAgentApprove(code).subscribe(dec => {
+      this.agentsServices.postAgentApprove(code).subscribe(dec => {
 
-        this.adminService.getAgent().subscribe(res => {
+        this.agentsServices.getAgent().subscribe(res => {
           this.data = res['data'];
           this.Pending = this.data.filter(it => it.status === 'Pending');
           this.approve = this.data.filter(it => it.status === 'Approved');
           this.decline = this.data.filter(it => it.status === 'Declined');
-          
-          if(this.Pending.length == 0){
+
+          if (this.Pending.length == 0) {
             this.agentErrorPending = this.translate.instant('gent-ErrorPending');
           }
-          
-          if(this.approve.length == 0){
+
+          if (this.approve.length == 0) {
             this.agentErrorApprove = this.translate.instant('gent-ErrorApprove');
           }
-  
-          if(this.decline.length == 0){
+
+          if (this.decline.length == 0) {
             this.agentErrorDecline = this.translate.instant('gent-ErrorDecline');
           }
 
@@ -174,39 +168,13 @@ export class AgentsPage implements OnInit {
 
         }, err => {
           loading.dismiss();
-          
+
         })
       }, errs => {
         loading.dismiss();
         this.toast.show(errs.error.message);
       })
     });
-  }
-
-
-  async deleteAgent() {
-    const alert = await this.alertController.create({
-      header: this.translate.instant('confirm'),
-      message: this.translate.instant('sure-to-delete'),
-      buttons: [
-        {
-          text: this.translate.instant('cancel'),
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: blah => { }
-        },
-        {
-          text: this.translate.instant('ok'),
-          handler: () => { }
-        }
-      ]
-    });
-    await alert.present();
-  }
-
-
-  editAgent() {
-    this.router.navigateByUrl('/admin/attributes');
   }
 
 

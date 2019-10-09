@@ -31,12 +31,15 @@
     "register-create-account":"Create Account ",
     "register-valid":"Successful Register",
     "register-invalid":"Data Invalid",
+    "Questionss":"Do you have an account ?",
 
     "login":"Login",
     "login-invalid":"Invalid Password or Email",
     "login-error":"Internal Server",
     "login-valid":"Successful Login",
-
+    "login-email": "Email",
+    "login-password": "Password",
+    "Question":" Do not have an account ?",
    
     "sideMenu-menu" : "Menu",
     "sideMenu-home":"Home",
@@ -62,6 +65,8 @@
     "profile":"Profile",
     "profile.userInformations":"User Information",
     "profile-update":"Update Profile",
+    "edit-profile":"Edit Profile",
+    "personal":"Personal",
 
     "addresses":"Addresses",
     "address-title":"Title",
@@ -170,7 +175,11 @@
     "finished":"Finished",
     "role-message":"Delete Role?",
     "roles-Error":"NO Roles",
-    "orders":"Orders"
+    "orders":"Orders",
+
+    "logout-message":"Logout From ?",
+    "allDevice":"All Devices",
+    "thisDevice":"this Device"
 
    
 

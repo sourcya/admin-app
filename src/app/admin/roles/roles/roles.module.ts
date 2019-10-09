@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { RolesPage } from './roles.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { RolesFilterPage } from '../roles-filter/roles-filter.page';
+import { AddRolePage } from '../add-role/add-role.page';
 
 const routes: Routes = [
   {
@@ -24,7 +24,7 @@ const routes: Routes = [
     TranslateModule,
     RouterModule.forChild(routes)
   ],
-   entryComponents:[RolesFilterPage],
-  declarations: [RolesPage,RolesFilterPage]
+   entryComponents:[AddRolePage],
+  declarations: [RolesPage, AddRolePage]
 })
 export class RolesPageModule {}
