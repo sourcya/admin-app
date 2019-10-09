@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingController, ModalController, AlertController } from '@ionic/angular';
-import { AdminService } from '../services/admin.service';
 import { AddCityPage } from './add-city/add-city.page';
 import { EditCityPage } from './edit-city/edit-city.page';
 import { ToastService } from 'src/app/lib/services/toast.service';
+import { CitiesService } from './services/cities.service';
 
 @Component({
   selector: 'app-cities',
@@ -24,7 +24,7 @@ export class CitiesPage implements OnInit {
 
   constructor(private translate: TranslateService,
     private loadingController: LoadingController,
-    private adminServices: AdminService,
+    private citiesServices: CitiesService,
     public modalController: ModalController,
     private alertCtrl: AlertController,
     private toast: ToastService) { }
@@ -41,7 +41,7 @@ export class CitiesPage implements OnInit {
     }).then(loading => {
       loading.present();
 
-      this.adminServices.getAllCities().subscribe(res => {
+      this.citiesServices.getAllCities().subscribe(res => {
         console.log(res);
 
         this.data = res['data'];
@@ -100,11 +100,11 @@ export class CitiesPage implements OnInit {
             }).then((loading) => {
               loading.present();
 
-              this.adminServices.deleteCityId(id).subscribe(res => {
+              this.citiesServices.deleteCityId(id).subscribe(res => {
 
                 this.data = [];
                 this.citiesError = null;
-                this.adminServices.getAllCities().subscribe(res => {
+                this.citiesServices.getAllCities().subscribe(res => {
                   // console.log(res);
                   this.data = res['data'];
                   loading.dismiss();
@@ -137,11 +137,12 @@ export class CitiesPage implements OnInit {
       alert.present();
     });
   }
+
   ionRefresh(event) {
     // console.log('Pull Event Triggered!');
     this.data = [];
     this.citiesError = null;
-    this.adminServices.getAllCities().subscribe(res => {
+    this.citiesServices.getAllCities().subscribe(res => {
       // console.log(res);
       this.data = res['data'];
       event.target.complete();

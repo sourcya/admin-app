@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{'register'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="registerUser()" #registerForm="ngForm">
+    <ion-grid padding-top padding-bottom>
+      <ion-row justify-content-center text-center>
+        <ion-col align-self-center size-md="6" size-lg="8" size-xs="12">
+
+          <ion-row justify-content-center padding-top>
+            <ion-col>
+              <ion-item>
+                <ion-icon color="secondary" name="person" slot="start"></ion-icon>
+                <ion-input type="text" minlength="3" name="first_name" required ngModel #fname="ngModel"
+                  placeholder="{{'first-name'|translate}}">
+                </ion-input>
+                <ion-icon color="success" name="checkmark-circle" *ngIf="fname.valid && fname.dirty"></ion-icon>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-icon color="secondary" name="person" slot="start"></ion-icon>
+                <ion-input type="text" name="last_name" minlength="3" required ngModel #lname="ngModel"
+                  placeholder="{{'last-name'|translate}}">
+                </ion-input>
+                <ion-icon color="success" name="checkmark-circle" *ngIf="lname.valid && lname.dirty"></ion-icon>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row justify-content-center>
+            <ion-col>
+              <ion-item>
+                <ion-icon color="secondary" name="mail" slot="start"></ion-icon>
+                <ion-input type="email"
+                  pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+                  maxlength="255" name="email" email #email="ngModel" required ngModel
+                  placeholder="{{'email'|translate}}">
+                </ion-input>
+                <ion-icon color="success" name="checkmark-circle" *ngIf="email.valid && email.dirty"></ion-icon>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row justify-content-center>
+            <ion-col>
+              <ion-item>
+                <ion-icon color="secondary" name="lock" slot="start"></ion-icon>
+                <ion-input type="password" name="password" minlength="8" #password="ngModel" required ngModel
+                  placeholder="{{'password'|translate}}">
+                </ion-input>
+                <ion-icon color="success" name="checkmark-circle" *ngIf="password.valid && password.dirty"></ion-icon>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item>
+                <ion-icon color="secondary" name="lock" slot="start"></ion-icon>
+                <ion-input type="password" minlength="8" name="password_confirmation" Equalvalidate="password"
+                  #passwordconfirm="ngModel" required ngModel placeholder="{{'confirm-password'|translate}}">
+                </ion-input>
+                <ion-icon color="success" name="checkmark-circle" *ngIf="passwordconfirm.valid"></ion-icon>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row margin-top padding-bottom justify-content-center>
+            <ion-col>
+              <ion-button color="primary" expand="block" size="large" type="submit" [disabled]='!registerForm.valid'>
+                {{'register-create-account'|translate}}</ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row justify-content-center text-center>
+            <ion-col>
+              <ion-label color="primary">{{'Questionss'|translate}} <a routerLink="/login">{{'login'|translate}} </a>
+              </ion-label>
+
+              <!-- <p>Already Have an account </p>
+                <a color="secondry" routerLink="/login">{{'login'|translate}} </a> -->
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

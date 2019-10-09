@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{'home'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row justify-content-center text-center>
+      <ion-col size-xs="12">
+        <ion-row justify-content-center text-center>
+          <ion-col size-xs="12" size-md="6">
+            <ion-card color="medium" routerLink="/admin/users">
+              <ion-card-content>
+                <ion-icon name="contacts" color="primary" size="large" style="width:60px;height:60px;margin:auto">
+                </ion-icon><br>
+                <ion-label color="primary" style="font-weight:
+                    bold;font-size:15px">{{admin.users}}</ion-label>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size-xs="12" size-md="6">
+            <ion-card color="medium" routerLink="/admin/roles">
+              <ion-card-content>
+                <ion-icon name="lock" color="primary" size="large" style="width:60px;height:60px;margin:auto">
+                </ion-icon><br>
+                <ion-label color="primary" style="font-weight:
+                    bold;font-size:15px"> {{admin.roles}}</ion-label>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size-xs="12" size-md="6">
+            <ion-card color="medium" routerLink="/admin/agents">
+              <ion-card-content>
+                <ion-icon name="bicycle" color="primary" size="large" style="width:60px;height:60px;margin:auto">
+                </ion-icon><br>
+                <ion-label color="primary" style="font-weight:
+                    bold;font-size:15px">{{admin.agents}}</ion-label>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size-xs="12" size-md="6">
+            <ion-card color="medium" routerLink="/admin/attributes">
+              <ion-card-content>
+                <ion-icon name="grid" color="primary" size="large" style="width:60px;height:60px;margin:auto">
+                </ion-icon><br>
+                <ion-label color="primary" style="font-weight:
+                    bold;font-size:15px">{{admin.attributes}}</ion-label>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size-xs="12" size-md="6">
+            <ion-card color="medium" routerLink="/admin/orders">
+              <ion-card-content>
+                <ion-icon name="filing" color="primary" size="large" style="width:60px;height:60px;margin:auto">
+                </ion-icon><br>
+                <ion-label color="primary" style="font-weight:
+                    bold;font-size:15px"> {{admin.orders}}</ion-label>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size-xs="12" size-md="6">
+            <ion-card color="medium" routerLink="/admin/cities">
+              <ion-card-content>
+                <ion-icon name="home" color="primary" size="large" style="width:60px;height:60px;margin:auto">
+                </ion-icon><br>
+                <ion-label color="primary" style="font-weight:
+                    bold;font-size:15px"> {{admin.cities}}</ion-label>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+          
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

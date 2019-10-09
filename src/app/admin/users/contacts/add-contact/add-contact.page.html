@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-icon style="cursor: pointer;" slot="end" name="close" (click)="cancel()" padding-end></ion-icon>
+    <ion-title>{{dataShow.addContact}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col size-xs="12" size-md="8">
+        <form #createContact="ngForm" (ngSubmit)="addContact()">
+          <ion-grid>
+            <!-- <ion-row justify-content-center>
+        <ion-col align-self-left  size-xs="12">
+          <ion-item padding-top>
+            <ion-input name="email"
+              pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+              maxlength="255" type="email" placeholder="{{dataShow.email}}"
+              [(ngModel)]="model.email"
+              #email="ngModel" [ngClass]="{ 'is-invalid': !email.toutch &&
+              email.invalid }" required padding-start
+              minlength="3">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row> -->
+            <!-- <ion-row>
+          <ion-col align-self-left size-md="6"  size-xs="12">
+              <ion-item padding-top>
+                <ion-input name="website"
+                  type="text" placeholder="{{dataShow.website}}"
+                  [(ngModel)]="model.website"
+                  #website="ngModel" [ngClass]="{ 'is-invalid': !website.toutch &&
+                  website.invalid }" required padding-start
+                  minlength="3">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+        <ion-col align-self-left size-md="6"  size-xs="12">
+          <ion-item padding-top>
+            <ion-input name="company"
+              type="text" placeholder="{{dataShow.company}}"
+              [(ngModel)]="model.company"
+              #company="ngModel" [ngClass]="{ 'is-invalid': !company.toutch &&
+              company.invalid }" required padding-start
+              minlength="3">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row> -->
+            <ion-row>
+              <ion-col align-self-left size-xs="12">
+                <ion-item padding-top>
+                  <ion-input type="text" name="phone_num" placeholder="{{dataShow.phoneNum}}"
+                    [(ngModel)]="model.phone_num" #phone_num="ngModel" [ngClass]="{ 'is-invalid': !phone_num.toutch
+              &&
+              phone_num.invalid }" required padding-start minlength="3">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+              <!-- <ion-col align-self-left size-md="6"  size-xs="12">
+          <ion-item padding-top>
+            <ion-input type="text"
+              name="alternative_phone_num" placeholder="{{dataShow.alternativeNum}}"
+              [(ngModel)]="model.alternative_phone_num"
+              #alternative_phone_num="ngModel" [ngClass]="{ 'is-invalid': !alternative_phone_num.toutch
+              &&
+              alternative_phone_num.invalid }" required padding-start
+              minlength="3">
+            </ion-input>
+          </ion-item>
+        </ion-col> -->
+            </ion-row>
+            <ion-row>
+              <ion-col align-self-left size-xs="12">
+                <ion-item padding-top>
+                  <ion-input name="user_email"
+                    pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
+                    maxlength="255" type="email" placeholder="{{dataShow.userEmail}}" [(ngModel)]="model.email"
+                    #user_email="ngModel" [ngClass]="{ 'is-invalid': !user_email.toutch &&
+                user_email.invalid }" required padding-start minlength="3">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row margin-top padding-bottom>
+              <ion-col col-8 offset-2>
+                <ion-button id="btnExcel" #butRegister id="butReg" minlength="8" expand="full" color="primary"
+                  class="shadow-red" size="large" type="submit" [disabled]='!createContact.valid '>
+                  {{dataShow.create}}
+                </ion-button>
+
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

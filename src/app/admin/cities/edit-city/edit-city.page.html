@@ -10,7 +10,7 @@
   <form #cityForm="ngForm" (ngSubmit)="editCity()">
     <ion-grid *ngIf="countries">
       <ion-row justify-content-center>
-        <ion-col align-self-left size-md="6" size-lg="5" size-xs="12">
+        <ion-col align-self-left size-md="6" size-lg="8" size-xs="12">
           <ion-item padding-top>
             <ion-select placeholder="{{'address-country' | translate}}" name="country" [(ngModel)]="countryId"
               okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}" required padding-start
