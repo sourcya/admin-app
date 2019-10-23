@@ -35,7 +35,7 @@ const routes: Routes = [
         loadChildren: 'src/app/admin/attributes/attribute/attribute.module#AttributePageModule'
       },
       {
-        path: 'contacts/:id', 
+        path: 'contacts/:id',
         loadChildren: 'src/app/admin/users/contacts/edit-contact/edit-contact.module#EditContactPageModule'
       },
       {
@@ -63,17 +63,19 @@ const routes: Routes = [
         loadChildren: 'src/app/admin/users/addresses/address/address.module#AddressPageModule'
       },
       {
+        path: 'notifications',
+        loadChildren: 'src/app/admin/notifications/notifications.module#NotificationsPageModule'
+      },
+
+      {
         path: 'orders',
         loadChildren: 'src/app/admin/orders/orders/orders.module#OrdersPageModule'
       },
       {
-        path: 'orders/add',
-        loadChildren: 'src/app/admin/orders/orders/add-order/add-order.module#AddOrderPageModule'
+        path: 'services',
+        loadChildren: 'src/app/admin/orders/order-services/order-services.module#OrderServicesPageModule'
       },
-      {
-        path: 'notifications',
-        loadChildren: 'src/app/admin/notifications/notifications.module#NotificationsPageModule'
-      }
+
     ]
   }
 ];

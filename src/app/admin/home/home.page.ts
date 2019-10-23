@@ -14,11 +14,12 @@ export class HomePage implements OnInit {
     agents: this.translate.instant('agents'),
     attributes: this.translate.instant('attributes'),
     cities: this.translate.instant('cities'),
-    orders:this.translate.instant('orders'),
+    orders: this.translate.instant('orders'),
     notifications: this.translate.instant('Notifications'),
+    services: this.translate.instant('services'),
   }
 
-  constructor( private translate: TranslateService) { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() {
   }

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UsersService } from '../services/users.service';
 import { AddUserPage } from '../add-user/add-user.page';
 import { EditUserPage } from '../edit-user/edit-user.page';
+import { ToastService } from 'src/app/lib/services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -22,12 +23,18 @@ export class UsersPage implements OnInit {
 
   response: any;
 
+  search = false;
+  dataSearch = [];
+  responseSearch: any;
+  pageSearch = 1;
+
   constructor(
     private loadingController: LoadingController,
     public modalController: ModalController,
     public alertController: AlertController,
     public router: Router,
     public translate: TranslateService,
+    private toast: ToastService,
     private userService: UsersService
   ) { }
 
@@ -38,6 +45,7 @@ export class UsersPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.userError = null;
+    this.dataSearch = [];
 
     this.loadingController.create({
       message: this.translate.instant('loading')
@@ -61,7 +69,7 @@ export class UsersPage implements OnInit {
     });
   }
 
-  addUsers(){
+  addUsers() {
     //Create Modal Page
     this.modalController.create({
       component: AddUserPage
@@ -116,6 +124,8 @@ export class UsersPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.userError = null;
+    this.dataSearch = [];
+
     this.userService.getAllUsers(this.page).subscribe(res => {
       // console.log(res);
       this.response = res;
@@ -134,5 +144,42 @@ export class UsersPage implements OnInit {
     }));
   }
 
+  condSearch() {
+    if (this.search) {
+      this.search = false;
+    }
+    else {
+      this.search = true;
+    }
+  }
+
+  searchUsers(ev) {
+    this.response = null;
+    this.dataListPagination = [];
+    this.dataSearch = [];
+    this.loadingController.create({
+      message: this.translate.instant('loading')
+    }).then((loading) => {
+      loading.present();
+
+      this.userService.searchUsers(ev.target.value).subscribe(res => {
+        this.responseSearch = res;
+        for (let index = 0; index < this.responseSearch.data.length; index++) {
+          this.dataSearch.push(this.responseSearch.data[index]);
+        }
+        loading.dismiss();
+        // if (this.dataSearch.length <= 0) {
+        //   this.toast.show(this.translate.instant('project-search-no'))
+        // }
+      }, err => {
+        loading.dismiss();
+        this.toast.show(err.error.message)
+      })
+    });
+  }
+
 
 }
+
+
+
