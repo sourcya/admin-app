@@ -11,10 +11,12 @@ import { AttributesService } from '../services/attributes.service';
   styleUrls: ['./attribute.page.scss'],
 })
 export class AttributePage implements OnInit {
-  keys=[];
+  keys = [];
 
   num: number = 1;
   keyNumbers = [this.num];
+
+  showDataKeys = [];
 
   dataShow = {
     name: this.translate.instant("name"),
@@ -54,6 +56,7 @@ export class AttributePage implements OnInit {
 
   attributeId: any;
   data: any;
+  checkedValue: any;
 
   constructor(private translate: TranslateService,
     private attributesService: AttributesService,
@@ -73,32 +76,47 @@ export class AttributePage implements OnInit {
   }
 
   addKeys() {
+    this.showDataKeys.length = 0;
     this.keyNumbers.push(this.num++);
     console.log(this.keyNumbers.length);
+  }
+
+  changeInput() {
+    this.showDataKeys.length = 0;
   }
 
   ionViewWillEnter() {
 
     this.data = null;
+    this.showDataKeys = [];
 
     this.loadingController.create({
       message: this.translate.instant("loading")
     }).then(loading => {
-        loading.present();
-        this.attributesService.getAtrributeId(this.attributeId).subscribe(res => {
-          this.data = res["data"];
-          this.num = this.data.keys.length;
-          console.log(this.data);
+      loading.present();
+      this.attributesService.getAtrributeId(this.attributeId).subscribe(res => {
+        this.data = res["data"];
+        this.num = this.data.keys.length;
+        if (res['data'].is_required == 1) {
+          this.checkedValue = 1 + '';
+        } else {
+          this.checkedValue = 0 + '';
+        }
+        // console.log(this.data);
+        for (let index = 0; index < res['data'].keys.length; index++) {
+          this.showDataKeys.push(res['data'].keys[index]);
+        }
+        console.log(this.showDataKeys.length);
+        
+
+        loading.dismiss();
+      },
+        err => {
           loading.dismiss();
-        },
-          err => {
-            loading.dismiss();
-            if (err.status === 404) {
-              // this.data.length = 0
-            }
-          }
-        );
-      });
+          this.toast.show(err.error.message)
+        }
+      );
+    });
   }
 
 
@@ -108,10 +126,15 @@ export class AttributePage implements OnInit {
     }).then((loading) => {
       loading.present();
 
-      console.log("keys",this.keys);
-      
 
-      let data :any = {
+      if(this.keys.length == 0){
+        this.keys = this.showDataKeys;
+      }
+
+      // console.log("keys", this.keys);
+
+
+      let data: any = {
         assigned_for: attribute.value.assigned_for,
         name: attribute.value.name,
         is_required: attribute.value.is_required,
@@ -123,6 +146,7 @@ export class AttributePage implements OnInit {
         loading.dismiss();
 
         this.toast.show(res['message']);
+        this.router.navigate(['/admin/attributes'])
       }, err => {
         loading.dismiss();
 

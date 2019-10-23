@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{'services'|translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <!-- Custom Refresher Content -->
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
+    <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid *ngIf="dataListPagination" padding-top>
+    <ion-row justify-content-center text-center>
+      <ion-col align-self-center size-md="8" size-xs="12">
+        <ion-list  *ngFor="let s of dataListPagination">
+          <ion-item  lines="full">
+              <ion-icon color="primary" slot="start" name="briefcase"></ion-icon>
+            <ion-label> {{s.name}}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataPagination($event)">
+    <ion-infinite-scroll-content loadingText="{{'Loading-more-data'|translate}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

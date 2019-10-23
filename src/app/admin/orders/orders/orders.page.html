@@ -25,7 +25,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size-xs="12" size-md="4" *ngFor="let order of inProgress">
-            <ion-card routerLink="/my-orders/{{order.code}}/order-track">
+            <ion-card>
               <ion-card-header color="medium">
                 <ion-card-subtitle>
                   <ion-row>
@@ -73,7 +73,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size-xs="12" size-md="4" *ngFor="let order of draft">
-            <ion-card routerLink="/my-orders/{{order.code}}/order-track">
+            <ion-card >
               <ion-card-header color="medium">
                 <ion-card-subtitle>
                   <ion-row>
@@ -121,7 +121,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size-xs="12" size-md="4" *ngFor="let order of finished">
-            <ion-card routerLink="/my-orders/{{order.code}}/order-track">
+            <ion-card>
               <ion-card-header color="medium">
                 <ion-card-subtitle>
                   <ion-row>
@@ -166,13 +166,6 @@
       </ion-grid>
     </ion-slide>
   </ion-slides>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed"
-    routerLink="/admin/orders/add">
-    <ion-fab-button size="small" mini>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button size="small" mini>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  
+
 </ion-content>

@@ -16,6 +16,7 @@ export class AdminGuard implements CanActivate {
             }
             else {
               this.toast.show("User Does not have a right Role");
+              this.router.navigate(['/login']);
               return false;
             }
           }

@@ -119,6 +119,7 @@
 
     "user-update":"تحديث المستخدم",
     "user-message":"حذف المستخدم ؟",
+    "user-search":"البحث عن طريق الإسم",
 
     "admin":"المدير",
     "users":"المستخدمين",
@@ -178,6 +179,8 @@
     "role-message":"حذف صلاحيه؟",
     "roles-Error":"لا يوجد صلاحيات",
     "orders":"الطلبات",
+    
+    "services":"خدمات",
 
     "logout-message":"الخروج من ؟",
     "allDevice":"كل الاجهزة",

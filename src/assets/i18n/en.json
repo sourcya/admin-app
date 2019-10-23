@@ -117,6 +117,7 @@
 
     "user-update":"Update User",
     "user-message":"Delete User ?",
+    "user-search":"Search By Name",
 
     "admin":"Admin",
     "users":"Users",
@@ -176,6 +177,8 @@
     "role-message":"Delete Role?",
     "roles-Error":"NO Roles",
     "orders":"Orders",
+    
+    "services":"Services",
 
     "logout-message":"Logout From ?",
     "allDevice":"All Devices",

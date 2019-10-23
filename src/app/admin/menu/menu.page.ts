@@ -60,6 +60,11 @@ export class MenuPage implements OnInit {
       icon: 'filing'
     },
     {
+      title: 'services',
+      url: '/admin/services',
+      icon: 'briefcase'
+    },
+    {
       title: 'Notifications',
       url: '/admin/notifications',
       icon: 'notifications-outline'

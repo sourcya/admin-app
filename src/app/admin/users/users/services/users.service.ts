@@ -27,5 +27,8 @@ export class UsersService {
   deleteUserId(id) {
     return this.http.delete(apiUrl + 'admin/users/' + id);
   }
+  searchUsers(name){
+    return this.http.get(apiUrl + 'admin/users/search?query=' + name);
+  }
 
 }

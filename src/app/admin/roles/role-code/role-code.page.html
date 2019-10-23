@@ -11,7 +11,7 @@
     <ion-row justify-content-center>
       <ion-col size-md="8" size-xs="12">
         <form #editRole="ngForm">
-          <ion-card *ngIf="data">
+          <ion-card>
             <ion-card-header color="primary">
               <ion-card-title color="primary">
                 <ion-grid>
@@ -28,7 +28,7 @@
                           </ion-item>
                         </ion-col>
                         <ion-col size-md="4" size-xs="12">
-                          <ion-button *ngIf="!data.name == 'Admin' && !data.name == 'Agent' && !data.name == 'Client'" expand="full" type="submit" color="light" (click)="edit(editRole)" >
+                          <ion-button expand="full" type="submit" color="light" (click)="edit(editRole)">
                             {{dataShow.update}}
                           </ion-button>
                         </ion-col>
@@ -42,7 +42,7 @@
               <ion-list *ngIf="permissions">
                 <ion-list-header>
                   <ion-label color="primary" style="font-weight:
-                    bold;font-size:15px;" *ngIf="permissions">{{dataShow.permissions}}</ion-label>
+                        bold;font-size:15px;" *ngIf="permissions">{{dataShow.permissions}}</ion-label>
                 </ion-list-header>
                 <ion-item *ngFor="let per of permissions">{{per.name}}</ion-item>
               </ion-list>
