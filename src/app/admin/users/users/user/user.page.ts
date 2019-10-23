@@ -67,9 +67,9 @@ export class UserPage implements OnInit {
     });
   }
 
-  contacts(){
-     //Create Modal Page
-     this.modalController.create({
+  contacts() {
+    //Create Modal Page
+    this.modalController.create({
       component: ContactsPage,
       componentProps: {
         'userEmail': this.dataRes.email,
@@ -79,7 +79,7 @@ export class UserPage implements OnInit {
     });
   }
 
-  edit(){
+  edit() {
     //Create Modal Page
     this.modalController.create({
       component: EditUserPage,
@@ -132,5 +132,18 @@ export class UserPage implements OnInit {
     });
   }
 
+  ionRefresh(event) {
+    this.dataRes = null;
+    
+    this.userService.getUserId(this.userId).subscribe(res => {
+      this.dataRes = res["data"];
+      event.target.complete();
+    },
+      err => {
+        event.target.complete();
+        this.toast.show(err.error.message)
+      }
+    );
+  }
 
 }
