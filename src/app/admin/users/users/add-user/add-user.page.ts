@@ -54,10 +54,13 @@ export class AddUserPage implements OnInit {
 
         this.userService.postUser(userForm.value).subscribe(res =>{
           loading.dismiss();
-
+          
+          this.cancel();
           this.toast.show(res['message']);
           this.router.navigate(['/admin/users']);
         },err =>{
+          console.log(err);
+          
           loading.dismiss();
           this.toast.show(err.error.message);
         })

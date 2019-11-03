@@ -27,11 +27,11 @@ export class AddRolePage implements OnInit {
     public roleService: RoleService,
     private loadingController: LoadingController,
     private toast: ToastService,
-    private router:Router,
+    private router: Router,
     public modalController: ModalController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 
   cancel() {
@@ -39,25 +39,24 @@ export class AddRolePage implements OnInit {
       'dismissed': true
     });
   }
-  
+
   ionViewWillEnter() {
     this.loadingController.create({
       message: this.translate.instant('loading')
     }).then((loading) => {
       loading.present();
-        this.roleService.getAllPermissions().subscribe(
-          res => {
-            loading.dismiss();
-            console.log(res);
-            this.permissions = res['data'];
-            
-          },
-          err => {
-            console.log(err);
-          });
-    
-        });
-      }
+      this.roleService.getAllPermissions().subscribe(res => {
+        console.log(res);
+        this.permissions = res['data'];
+        loading.dismiss();
+
+      }, err => {
+        loading.dismiss();
+        this.toast.show(err.error.message);
+      });
+    });
+  }
+
   addRole(roleForm) {
     console.log(roleForm.value)
     this.loadingController.create({
@@ -66,12 +65,13 @@ export class AddRolePage implements OnInit {
       .then(loading => {
         loading.present();
 
-        this.roleService.addRole(roleForm.value).subscribe(res =>{
+        this.roleService.addRole(roleForm.value).subscribe(res => {
           loading.dismiss();
 
+          this.cancel();
           this.toast.show(res['message']);
           this.router.navigate(['/admin/roles']);
-        },err=>{
+        }, err => {
           console.log(err)
           loading.dismiss();
           this.toast.show(err.error['errors'].name);

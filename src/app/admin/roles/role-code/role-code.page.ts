@@ -80,9 +80,7 @@ export class RoleCodePage implements OnInit {
               },
               err => {
                 loading.dismiss();
-                if (err.status === 404) {
-
-                }
+                this.toast.show(err.error.message);
               }
             );
           })
@@ -125,15 +123,12 @@ export class RoleCodePage implements OnInit {
           text: this.translate.instant('delete'),
           handler: () => {
 
-
-
             this.loadingController.create({
               message: this.translate.instant('loading')
             }).then((loading) => {
               loading.present();
 
               this.roleService.deleteRole(this.roleId).subscribe(res => {
-                const resp = res;
                 loading.dismiss();
                 this.toast.show(res['message']);
                 this.router.navigate(['/admin/roles']);
@@ -141,10 +136,7 @@ export class RoleCodePage implements OnInit {
                 (err) => {
                   console.log(err)
                   loading.dismiss();
-                  if (err.status === 500) {
-                    this.message = err;
                     this.toast.show(err.error['errors'].name);
-                  }
                 }
               );
             });

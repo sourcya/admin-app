@@ -20,8 +20,9 @@
                 <ion-input type="email"
                   pattern="[A-Za-z0-9._%+-]{1,}@[a-zA-Z]{2,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
                   maxlength="255" name="email" email #email="ngModel" required ngModel
-                  placeholder="{{'email'|translate}}" padding-start>
+                  placeholder="your@email.com" padding-start>
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! email.toutch && email.invalid" >*</ion-note>
                 <ion-icon color="success" name="checkmark-circle" *ngIf="email.valid && email.dirty" slot="end">
                 </ion-icon>
               </ion-item>
@@ -35,6 +36,7 @@
                 <ion-input type="password" name="password" minlength="8" #password="ngModel" required ngModel
                   placeholder="{{'password'|translate}}" padding-start>
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! password.toutch && password.invalid" >*</ion-note>
                 <ion-icon color="success" name="checkmark-circle" *ngIf="password.valid && password.dirty" slot="end">
                 </ion-icon>
               </ion-item>

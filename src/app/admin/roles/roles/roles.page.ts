@@ -29,10 +29,6 @@ export class RolesPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.dataListPagination)
-    this.roleService.getAllRoles(1).subscribe(res => {
-      console.log(res);
-    })
   }
 
 
@@ -57,16 +53,16 @@ export class RolesPage implements OnInit {
       loading.present();
       // this.getRoles(this.page)
       this.roleService.getAllRoles(this.page).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         this.response = res;
         for (let index = 0; index < this.response.data.length; index++) {
           this.dataListPagination.push(this.response.data[index]);
         }
-        console.log(this.dataListPagination)
+        // console.log(this.dataListPagination)
         loading.dismiss();
 
       }, (err => {
-        console.log(err);
+        // console.log(err);
 
         loading.dismiss();
         if (err.status === 404) {
@@ -79,7 +75,7 @@ export class RolesPage implements OnInit {
   }
 
   getRoles(page) {
-    this.roleService.getAllRoles(this.page).subscribe(res => {
+    this.roleService.getAllRoles(page).subscribe(res => {
       // console.log(res);
       this.response = res;
 
@@ -98,7 +94,7 @@ export class RolesPage implements OnInit {
 
   // //pagination
   loadDataPagination(event) {
-    console.log(this.dataListPagination);
+    // console.log(this.dataListPagination);
     setTimeout(() => {
       // console.log('Done');
       if (this.response) {

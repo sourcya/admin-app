@@ -54,12 +54,12 @@ export class AddContactPage implements OnInit {
         loading.dismiss();
         this.cancel();
         this.toast.show(res['message'])
-        this.router.navigate(['/admin/user' + res['data'].user.id]);
+        this.router.navigate(['/admin/user/' + res['data'].user.id]);
 
       }, (err) => {
         console.log(err);
         loading.dismiss();
-        this.toast.show(err.error.message)
+        this.toast.show(err.error['errors'].name);
       });
     });
   }

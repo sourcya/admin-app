@@ -143,12 +143,12 @@ export class AddAddressPage implements OnInit {
         this.toast.show(res['message'])
 
         this.cancel();
-        this.router.navigate(['/admin/user' + res['data'].user.id]);
+        this.router.navigate(['/admin/user/' + res['data'].user.id]);
 
       }, (err) => {
         // console.log(err);
         loading.dismiss();
-        this.toast.show(err.error.message)
+        this.toast.show(err.error['errors'].name);
 
       });
     });

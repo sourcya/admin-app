@@ -17,6 +17,7 @@
                 <ion-input type="text" minlength="3" name="first_name" required ngModel #fname="ngModel"
                   placeholder="{{'first-name'|translate}}">
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! fname.toutch && fname.invalid" >*</ion-note>
                 <ion-icon color="success" name="checkmark-circle" *ngIf="fname.valid && fname.dirty"></ion-icon>
               </ion-item>
             </ion-col>
@@ -27,6 +28,7 @@
                 <ion-input type="text" name="last_name" minlength="3" required ngModel #lname="ngModel"
                   placeholder="{{'last-name'|translate}}">
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! lname.toutch && lname.invalid" >*</ion-note>
                 <ion-icon color="success" name="checkmark-circle" *ngIf="lname.valid && lname.dirty"></ion-icon>
               </ion-item>
             </ion-col>
@@ -39,8 +41,9 @@
                 <ion-input type="email"
                   pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
                   maxlength="255" name="email" email #email="ngModel" required ngModel
-                  placeholder="{{'email'|translate}}">
+                  placeholder="your@email.com">
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! email.toutch && email.invalid" >*</ion-note>
                 <ion-icon color="success" name="checkmark-circle" *ngIf="email.valid && email.dirty"></ion-icon>
               </ion-item>
             </ion-col>
@@ -53,6 +56,7 @@
                 <ion-input type="password" name="password" minlength="8" #password="ngModel" required ngModel
                   placeholder="{{'password'|translate}}">
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! password.toutch && password.invalid" >*</ion-note>
                 <ion-icon color="success" name="checkmark-circle" *ngIf="password.valid && password.dirty"></ion-icon>
               </ion-item>
             </ion-col>
@@ -63,6 +67,7 @@
                 <ion-input type="password" minlength="8" name="password_confirmation" Equalvalidate="password"
                   #passwordconfirm="ngModel" required ngModel placeholder="{{'confirm-password'|translate}}">
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! passwordconfirm.toutch && passwordconfirm.invalid" >*</ion-note>
                 <ion-icon color="success" name="checkmark-circle" *ngIf="passwordconfirm.valid"></ion-icon>
               </ion-item>
             </ion-col>

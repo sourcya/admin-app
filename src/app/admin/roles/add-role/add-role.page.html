@@ -1,10 +1,11 @@
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-icon style="cursor: pointer;" slot="end" name="close" (click)="cancel()" padding-end></ion-icon>
-      <ion-title>{{role.addRole}}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
+  <ion-toolbar color="primary">
+    <ion-icon style="cursor: pointer;" slot="end" name="close" (click)="cancel()" padding-end></ion-icon>
+    <ion-title>{{role.addRole}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
   <ion-grid>
     <form (ngSubmit)="addRole(roleForm)" #roleForm="ngForm">
       <ion-row justify-content-center>
@@ -13,24 +14,27 @@
             <ion-input type="text" minlength="3" name="name" required ngModel #name="ngModel"
               placeholder="{{role.title}}">
             </ion-input>
-            <ion-icon color="success" name="checkmark-circle" *ngIf="name.valid && name.dirty"></ion-icon>
+            <ion-note color="danger" slot="end">*</ion-note>
           </ion-item>
         </ion-col>
       </ion-row>
-     <ion-row justify-content-center>
-       <ion-col size-md="6">
+
+      <ion-row justify-content-center>
+        <ion-col size-md="6">
           <ion-list>
-              <ion-item>
-                <ion-label>{{role.selectPermission}}</ion-label>
-                <ion-select name="permissions" ngModel okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}"
+            <ion-item>
+              <ion-label>{{role.selectPermission}}</ion-label>
+              <ion-select name="permissions" ngModel okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}"
                 multiple="true">
                 <ion-select-option *ngFor="let per of permissions" [value]="per.name">{{per.name}}
                 </ion-select-option>
-                </ion-select>
-              </ion-item>
-            </ion-list>
-       </ion-col>
-     </ion-row>
+              </ion-select>
+              <ion-note color="danger" slot="end">*</ion-note>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
       <ion-row margin-top padding-bottom justify-content-center>
         <ion-col size-md="6">
           <ion-button expand="full" size="large" type="submit" color="primary" [disabled]='!roleForm.valid'>
