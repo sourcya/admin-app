@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingController, ModalController, NavParams } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { ContactsService } from './service/contacts.service';
 import { AddContactPage } from './add-contact/add-contact.page';
 
@@ -28,7 +28,6 @@ export class ContactsPage implements OnInit {
   constructor(
     public router: Router,
     private translate: TranslateService,
-    private loadingController: LoadingController,
     public modalController: ModalController,
     public navParams: NavParams,
     public contactService: ContactsService) { }
@@ -48,31 +47,10 @@ export class ContactsPage implements OnInit {
     this.page = 1;
     this.contactsError = null;
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-      // this.getPosts(this.page)
-      this.contactService.getContactsByUser(this.userEmail, this.page).subscribe(res => {
-        console.log(res);
-        this.response = res;
-        for (let index = 0; index < this.response.data.length; index++) {
-          this.dataListPagination.push(this.response.data[index]);
-        }
-        console.log(this.dataListPagination)
-        loading.dismiss();
+    this.userEmail = this.navParams.get('userEmail');
 
-      }, (err => {
-        console.log(err);
-
-        loading.dismiss();
-        if (err.status === 404) {
-          // this.data.length = 0
-          this.contactsError = this.translate.instant('contacts-Error');
-        }
-      }));
-
-    });
+    this.getPosts(this.page);    
+    
   }
 
   getPosts(page) {
@@ -80,22 +58,16 @@ export class ContactsPage implements OnInit {
       // console.log(res);
       this.response = res;
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
+      for (let index = 0; index < res['data'].length; index++) {
+        this.dataListPagination.push(res['data'][index]);
       }
-      console.log(this.dataListPagination)
-    }, (err => {
-      if (err.status === 404) {
-        // this.data.length = 0
-        this.contactsError = this.translate.instant('contacts-Error');
-      }
-    }));
+    });
   }
 
 
   // //pagination
   loadDataPagination(event) {
-    console.log(this.dataListPagination);
+    // console.log(this.dataListPagination);
     setTimeout(() => {
       // console.log('Done');
       if (this.response) {
@@ -122,22 +94,10 @@ export class ContactsPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.contactsError = null;
-    this.contactService.getContactsByUser(this.userEmail, this.page).subscribe(res => {
-      this.response = res;
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
-      }
+    this.getPosts(this.page);
 
-      event.target.complete();
-
-    }, (err => {
-      event.target.complete();
-
-      if (err.status === 404) {
-        this.contactsError = this.translate.instant('contacts-Error');
-      }
-    }));
+    event.target.complete();
   }
 
   openContact(id) {

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { NgForm } from '@angular/forms';
-import { ModalController, LoadingController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AttributesService } from '../services/attributes.service';
 
@@ -66,8 +66,7 @@ export class AddAttributesPage implements OnInit {
   constructor(private translate: TranslateService,
     private attributesService: AttributesService,
     private tosat: ToastService, private router: Router,
-    public modalController: ModalController,
-    private loadingController: LoadingController, ) { }
+    public modalController: ModalController ) { }
 
   ngOnInit() {
   }
@@ -83,15 +82,6 @@ export class AddAttributesPage implements OnInit {
 
   addAttributes() {
     // console.log(this.createAttributes.value);
-
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-
-    console.log(this.createAttributes.value);
-
     let data :any = {
       assigned_for: this.createAttributes.value.assigned_for,
       name: this.createAttributes.value.name,
@@ -101,16 +91,10 @@ export class AddAttributesPage implements OnInit {
     };
 
       this.attributesService.postAttributes(data).subscribe(res => {
-        loading.dismiss();
         this.tosat.show(res['message']);
 
         this.cancel();
         this.router.navigate(['/admin/attributes']);
-
-      }, err => {
-        loading.dismiss();
-        this.tosat.show(err.error.message)
-      })
     });
   }
 

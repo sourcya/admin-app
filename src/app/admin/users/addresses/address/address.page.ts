@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { AddressesService } from '../services/addresses.service';
 
@@ -42,7 +42,6 @@ export class AddressPage implements OnInit {
     private alertCtrl: AlertController,
     private toast: ToastService,
     private router: Router,
-    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {
@@ -63,133 +62,90 @@ export class AddressPage implements OnInit {
 
     this.data = null;
 
-    this.loadingController.create({
-      message: this.translate.instant("loading")
-    })
-      .then(loading => {
-        loading.present();
-        this.addressesServices.getAddressId(this.addressId).subscribe(
-          res => {
-            this.data = res["data"];
-            console.log(this.data);
-
-
-            this.addressesServices.getCountries().subscribe((res) => {
-              // console.log(res);
-              for (let i = 0; i < res['data'].length; i++) {
-                if (res['data'][i].name == 'Saudi Arabia' || res['data'][i].name == 'Egypt') {
-                  this.countries.push(res['data'][i].name)
-                }
-                if (res['data'][i].name == this.data.country) {
-                  this.codeCountry = res['data'][i].id;
-                }
-              }
-
-              this.addressesServices.getStates(this.codeCountry).subscribe((sta) => {
-                for (let i = 0; i < sta['data'].length; i++) {
-                  this.states.push(sta['data'][i].name)
-                  if (sta['data'][i].name == this.data.state) {
-                    this.stateId = sta['data'][i].id;
-                  }
-                }
-
-                this.addressesServices.getCities(this.stateId).subscribe(cit => {
-                  this.cities = cit['data'];
-
-                  loading.dismiss();
-
-                })
-              })
-            })
-
-          },
-          err => {
-            loading.dismiss();
-            if (err.status === 404) {
-              // this.data.length = 0
-            }
-          }
-        );
-      });
-  }
-
-  changeCountry(ev) {
-    this.states = [];
-    console.log(ev.target.value);
-
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
+    this.addressesServices.getAddressId(this.addressId).subscribe(addr => {
+      this.data = addr["data"];
+      // console.log(this.data);
 
       this.addressesServices.getCountries().subscribe((res) => {
         // console.log(res);
         for (let i = 0; i < res['data'].length; i++) {
-          if (res['data'][i].name == ev.target.value) {
+          if (res['data'][i].name == 'Saudi Arabia' || res['data'][i].name == 'Egypt') {
+            this.countries.push(res['data'][i].name)
+          }
+          if (res['data'][i].name == this.data.country) {
             this.codeCountry = res['data'][i].id;
           }
         }
 
         this.addressesServices.getStates(this.codeCountry).subscribe((sta) => {
-          console.log(sta);
           for (let i = 0; i < sta['data'].length; i++) {
             this.states.push(sta['data'][i].name)
+            if (sta['data'][i].name == this.data.state) {
+              this.stateId = sta['data'][i].id;
+            }
           }
-          // console.log(this.states);
-          loading.dismiss();
-        })
-      })
+
+          this.addressesServices.getCities(this.stateId).subscribe(cit => {
+            this.cities = cit['data'];
+          });
+
+        });
+      });
+    });
+  }
+
+  changeCountry(ev) {
+    this.states = [];
+    // console.log(ev.target.value);
+
+    this.addressesServices.getCountries().subscribe((res) => {
+      // console.log(res);
+      for (let i = 0; i < res['data'].length; i++) {
+        if (res['data'][i].name == ev.target.value) {
+          this.codeCountry = res['data'][i].id;
+        }
+      }
+
+      this.addressesServices.getStates(this.codeCountry).subscribe((sta) => {
+        // console.log(sta);
+        for (let i = 0; i < sta['data'].length; i++) {
+          this.states.push(sta['data'][i].name)
+        }
+        // console.log(this.states);
+      });
     });
   }
 
   changeStates(ev) {
-    console.log(ev.target.value);
+    // console.log(ev.target.value);
     this.cities = null;
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-      this.addressesServices.getStates(this.codeCountry).subscribe(res => {
-        for (let i = 0; i < res['data'].length; i++) {
-          if (ev.target.value == res['data'][i].name) {
-            // console.log(res['data'][i].id);
-            this.stateId = res['data'][i].id;
-            break;
-          }
+    this.addressesServices.getStates(this.codeCountry).subscribe(res => {
+      for (let i = 0; i < res['data'].length; i++) {
+        if (ev.target.value == res['data'][i].name) {
+          // console.log(res['data'][i].id);
+          this.stateId = res['data'][i].id;
+          break;
         }
-        this.addressesServices.getCities(this.stateId).subscribe(cit => {
-          if (cit['data'].length > 0) {
-            this.cities = cit['data'];
-          }
-          else {
-            this.cities = null;
-          }
-          loading.dismiss();
-        })
-      })
+      }
+
+      this.addressesServices.getCities(this.stateId).subscribe(cit => {
+        if (cit['data'].length > 0) {
+          this.cities = cit['data'];
+        }
+        else {
+          this.cities = null;
+        }
+
+      });
     });
   }
 
 
   edit(address) {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
       this.addressesServices.editAddressId(this.addressId, address.value).subscribe(res => {
-        loading.dismiss();
-
         this.toast.show(res['message']);
         this.router.navigate(['/admin/user/' + this.data.user.id]);
-
-      }, err => {
-        loading.dismiss();
-
-        this.toast.show(err.error.message)
-      })
     });
 
   }
@@ -211,23 +167,11 @@ export class AddressPage implements OnInit {
 
             // console.log('Confirm Okay');
 
-            this.loadingController.create({
-              message: this.translate.instant('loading')
-            }).then((loading) => {
-              loading.present();
-
               this.addressesServices.deleteAddress(this.addressId).subscribe(res => {
-                loading.dismiss();
                 this.toast.show(res['message']);
-
                 this.router.navigate(['/admin/user/' + this.data.user.id]);
-              },
-                (err) => {
-                  loading.dismiss();
-                  this.toast.show(err.error.message);
-                }
-              );
             });
+            
           }
         }
       ]

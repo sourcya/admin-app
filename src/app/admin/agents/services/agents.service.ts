@@ -10,8 +10,8 @@ export class AgentsService {
 
   constructor(public http: HttpClient) { }
 
-  getAgent() {
-    return this.http.get(apiUrl + 'admin/agent');
+  getAgent(page) {
+    return this.http.get(apiUrl + 'admin/agent?page=' + page);
   }
   postAgentApprove(code) {
     return this.http.post(apiUrl + 'admin/agent/approve/' + code, 'approve');

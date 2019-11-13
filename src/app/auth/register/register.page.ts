@@ -18,49 +18,16 @@ export class RegisterPage implements OnInit {
     private route: Router,
     private auth: AuthService ,
     private toast: ToastService,
-    private toastCtrl: ToastController,
-    private translate: TranslateService,
-    private loadingController: LoadingController
-  ) { }
+    ) { }
 
   ngOnInit() { }
 
 
   registerUser() {
-    this.loadingController.create({
-      message:  this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
       this.auth.register( this.registerForm.value).subscribe(res => {
           // console.log(res.message)
-          loading.dismiss();
-
-          this.toast.show(this.translate.instant('register-valid'));
+          this.toast.show(res['message']);
           this.route.navigate(['/login']);
-        },
-          // tslint:disable-next-line: no-unused-expression
-          (err) => {
-            loading.dismiss();
-            this.toast.show(err.error.message);
-
-            // if (err.status === 422) {
-            //   // this.message = err.error;
-            //   // let responseErrors = this.message.errors
-            //   // let responseErrorsArray = Object.entries(responseErrors)
-            //   // for (let i = 0; i <= responseErrorsArray.length - 1; i++) {
-            //   //   // console.log(responseErrorsArray[i][0]+ ":" + responseErrorsArray[i][1]);
-            //   //   this.message = responseErrorsArray[i][1];
-            //   //   // console.log(this.message);
-            //   // }
-            //   this.toast.show(this.translate.instant('register-invalid'));
-            // } else if (err.status === 500) {
-            //   this.message = err.error;
-            //   this.toast.show(JSON.stringify(this.message));
-            // } else {
-            //   this.toast.show('Check Your Connection');
-            // }
-          });
     });
 
   }

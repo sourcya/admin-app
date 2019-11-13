@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { RoleService } from '../service/role.service';
@@ -20,7 +20,6 @@ export class RolesPage implements OnInit {
   }
 
   constructor(
-    private loadingController: LoadingController,
     public modalController: ModalController,
     public alertController: AlertController,
     public router: Router,
@@ -32,7 +31,7 @@ export class RolesPage implements OnInit {
   }
 
 
-  addRoles(){
+  addRoles() {
     //Create Modal Page
     this.modalController.create({
       component: AddRolePage
@@ -46,32 +45,7 @@ export class RolesPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
 
-
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-      // this.getRoles(this.page)
-      this.roleService.getAllRoles(this.page).subscribe(res => {
-        // console.log(res);
-        this.response = res;
-        for (let index = 0; index < this.response.data.length; index++) {
-          this.dataListPagination.push(this.response.data[index]);
-        }
-        // console.log(this.dataListPagination)
-        loading.dismiss();
-
-      }, (err => {
-        // console.log(err);
-
-        loading.dismiss();
-        if (err.status === 404) {
-          // this.data.length = 0
-          this.roleError = this.translate.instant('roles-Error');
-        }
-      }));
-
-    });
+    this.getRoles(this.page);
   }
 
   getRoles(page) {
@@ -79,20 +53,14 @@ export class RolesPage implements OnInit {
       // console.log(res);
       this.response = res;
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
+      for (let index = 0; index < res['data'].length; index++) {
+        this.dataListPagination.push(res['data'][index]);
       }
-      console.log(this.dataListPagination)
-    }, (err => {
-      if (err.status === 404) {
-        // this.data.length = 0
-        this.roleError = this.translate.instant('roles-Error');
-      }
-    }));
+    });
   }
 
 
-  // //pagination
+  ////pagination
   loadDataPagination(event) {
     // console.log(this.dataListPagination);
     setTimeout(() => {
@@ -124,22 +92,9 @@ export class RolesPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.roleError = null;
-    this.roleService.getAllRoles(this.page).subscribe(res => {
-      this.response = res;
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
-      }
-
-      event.target.complete();
-
-    }, (err => {
-      event.target.complete();
-
-      if (err.status === 404) {
-        this.roleError = this.translate.instant('roles-Error');
-      }
-    }));
+    this.getRoles(this.page);
+    event.target.complete();
   }
-  
+
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingController, ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddCityPage } from './add-city/add-city.page';
 import { EditCityPage } from './edit-city/edit-city.page';
 import { ToastService } from 'src/app/lib/services/toast.service';
@@ -18,12 +18,14 @@ export class CitiesPage implements OnInit {
     state: this.translate.instant('address-state'),
   };
 
-  data: any;
+  data = [];
 
   citiesError: any;
 
+  page = 1;
+  response: any;
+
   constructor(private translate: TranslateService,
-    private loadingController: LoadingController,
     private citiesServices: CitiesService,
     public modalController: ModalController,
     private alertCtrl: AlertController,
@@ -33,29 +35,23 @@ export class CitiesPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.data = null;
+    this.data = [];
     this.citiesError = null;
+    this.page = 1;
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then(loading => {
-      loading.present();
-
-      this.citiesServices.getAllCities().subscribe(res => {
-        console.log(res);
-
-        this.data = res['data'];
-        loading.dismiss();
-      }, err => {
-        loading.dismiss();
-        if (err.status === 404) {
-          // this.data.length = 0
-          this.citiesError = this.translate.instant('cities-Error');
-        }
-      });
-    });
+    this.getCities(this.page);
   }
 
+  getCities(pageNum) {
+    this.citiesServices.getAllCities(pageNum).subscribe(res => {
+      this.response = res;
+
+      for (let index = 0; index < res['data'].length; index++) {
+        this.data.push(res['data'][index]);
+      }
+      
+    });
+  }
 
   addcity() {
     // Create Modal Page
@@ -95,40 +91,14 @@ export class CitiesPage implements OnInit {
 
             // console.log('Confirm Okay');
 
-            this.loadingController.create({
-              message: this.translate.instant('loading')
-            }).then((loading) => {
-              loading.present();
+            this.citiesServices.deleteCityId(id).subscribe(res => {
+              this.toast.show(res['message']);
 
-              this.citiesServices.deleteCityId(id).subscribe(res => {
+              this.data = [];
+              this.citiesError = null;
+              this.page =1;
+              this.getCities(this.page);
 
-                this.data = [];
-                this.citiesError = null;
-                this.citiesServices.getAllCities().subscribe(res => {
-                  // console.log(res);
-                  this.data = res['data'];
-                  loading.dismiss();
-                  this.toast.show(this.translate.instant('city-deleteValid'));
-
-                }, err => {
-                  loading.dismiss();
-                  this.toast.show(this.translate.instant('city-deleteValid'));
-
-                  if (err.status === 404) {
-                    // this.data.length = 0
-                    this.citiesError = this.translate.instant('cities-Error');
-                  }
-                });
-
-              },
-                (err) => {
-                  loading.dismiss();
-                  this.toast.show(this.translate.instant(err.errors['errors'].name));
-                  // if (err.status === 500) {
-                  //   this.toast.show(this.translate.instant('error-500'));
-                  // }
-                }
-              );
             });
           }
         }
@@ -142,18 +112,34 @@ export class CitiesPage implements OnInit {
     // console.log('Pull Event Triggered!');
     this.data = [];
     this.citiesError = null;
-    this.citiesServices.getAllCities().subscribe(res => {
-      // console.log(res);
-      this.data = res['data'];
-      event.target.complete();
-    }, err => {
-      event.target.complete();
-      if (err.status === 404) {
-        // this.data.length = 0
-        this.citiesError = this.translate.instant('cities-Error');
-      }
-    });
+    this.page =1;
+    this.getCities(this.page);
+
+    event.target.complete();
   }
 
+  ////pagination
+  loadDataPagination(event) {
+    // console.log(this.dataListPagination);
+    setTimeout(() => {
+      // console.log('Done');
+      if (this.response) {
+        if (this.response.meta.last_page > this.page) {
+          this.page++;
+          // console.log("NumPages : ", this.page);
+          this.getCities(this.page);
+        }
+        event.target.complete();
+        // console.log(this.dataListPagination);
+        if (this.data.length == this.response.meta.total) {
+          event.target.disabled = true;
+        }
+      }
+      else {
+        event.target.disabled = true;
+      }
+
+    }, 500);
+  }
 
 }

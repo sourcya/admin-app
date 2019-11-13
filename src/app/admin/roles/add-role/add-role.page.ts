@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { RoleService } from '../service/role.service';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { Router } from '@angular/router';
 
@@ -25,7 +25,6 @@ export class AddRolePage implements OnInit {
   constructor(
     public translate: TranslateService,
     public roleService: RoleService,
-    private loadingController: LoadingController,
     private toast: ToastService,
     private router: Router,
     public modalController: ModalController
@@ -41,41 +40,20 @@ export class AddRolePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-      this.roleService.getAllPermissions().subscribe(res => {
-        console.log(res);
-        this.permissions = res['data'];
-        loading.dismiss();
-
-      }, err => {
-        loading.dismiss();
-        this.toast.show(err.error.message);
-      });
+    this.roleService.getAllPermissions().subscribe(res => {
+      // console.log(res);
+      this.permissions = res['data'];
     });
   }
 
   addRole(roleForm) {
-    console.log(roleForm.value)
-    this.loadingController.create({
-      message: this.translate.instant("loading")
-    })
-      .then(loading => {
-        loading.present();
+    // console.log(roleForm.value)
+    this.roleService.addRole(roleForm.value).subscribe(res => {
+      this.toast.show(res['message']);
+      
+      this.router.navigate(['/admin/roles']);
+      this.cancel();
 
-        this.roleService.addRole(roleForm.value).subscribe(res => {
-          loading.dismiss();
-
-          this.cancel();
-          this.toast.show(res['message']);
-          this.router.navigate(['/admin/roles']);
-        }, err => {
-          console.log(err)
-          loading.dismiss();
-          this.toast.show(err.error['errors'].name);
-        })
-      });
+    });
   }
 }

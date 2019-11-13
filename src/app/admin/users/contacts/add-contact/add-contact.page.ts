@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/lib/services/toast.service';
@@ -25,7 +25,7 @@ export class AddContactPage implements OnInit {
     create: this.translate.instant('create')
   }
 
-  constructor(private loadingController: LoadingController,
+  constructor(
     private router: Router, private translate: TranslateService,
     private contactService: ContactsService,
     private toast: ToastService,
@@ -45,22 +45,10 @@ export class AddContactPage implements OnInit {
   }
 
   addContact() {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
       this.contactService.addContact(this.createContact.value).subscribe((res) => {
-        loading.dismiss();
         this.cancel();
         this.toast.show(res['message'])
         this.router.navigate(['/admin/user/' + res['data'].user.id]);
-
-      }, (err) => {
-        console.log(err);
-        loading.dismiss();
-        this.toast.show(err.error['errors'].name);
-      });
     });
   }
 
