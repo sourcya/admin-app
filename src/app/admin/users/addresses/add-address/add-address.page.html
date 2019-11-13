@@ -13,9 +13,10 @@
         <ion-col align-self-left size-md="6" size-lg="5" size-xs="12">
 
           <ion-item padding-top>
-            <ion-input name="user_email" type="email" placeholder="{{dataShow.user_email}}"
+            <ion-input name="user_email" type="email" placeholder="user@email.com"
               [(ngModel)]="model.user_email" #user_email="ngModel" required padding-start minlength="3">
             </ion-input>
+            <ion-note color="danger" slot="end" *ngIf="! user_email.toutch && user_email.invalid">*</ion-note>
           </ion-item>
 
           <ion-item padding-top>
@@ -23,6 +24,7 @@
               #title="ngModel" [ngClass]="{ 'is-invalid': !title.toutch && title.invalid }" required padding-start
               minlength="3">
             </ion-input>
+            <ion-note color="danger" slot="end" *ngIf="! title.toutch && title.invalid">*</ion-note>
             <!-- <ion-list *ngIf="! title.toutch && title.invalid">
                 <ion-label color="danger" *ngIf="title.errors.required" padding-start>Title is required</ion-label>
                 <ion-label color="danger" *ngIf="title.errors.minlength" padding-start>Title must be at least 3 characters
@@ -38,14 +40,15 @@
               <ion-select-option *ngFor="let country of countries" [value]="country">{{country}}
               </ion-select-option>
             </ion-select>
+            <ion-note color="danger" slot="end" *ngIf="! country.toutch && country.invalid">*</ion-note>
             <!-- <ion-list *ngIf="! country.toutch && country.invalid" style="color: red; font-size: 12px;">
                 <ion-item lines="none" *ngIf="country.errors.required" padding-start>Country is required</ion-item>
               </ion-list> -->
           </ion-item>
 
-          <ion-item padding-top>
-            <ion-label color="dark" *ngIf="!states.length"> {{'state-msg' | translate}}</ion-label>
-            <ion-select (ionChange)="changeStates($event)" *ngIf="states.length" #state="ngModel" ngModel name="state"
+          <ion-item padding-top *ngIf="states.length">
+            <!-- <ion-label color="dark" *ngIf="!states.length"> {{'state-msg' | translate}}</ion-label> -->
+            <ion-select (ionChange)="changeStates($event)"  #state="ngModel" ngModel name="state"
               placeholder="{{dataShow.state}}" okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}"
               padding-start>
               <ion-select-option *ngFor="let state of states" [value]="state">{{state}}
@@ -53,9 +56,9 @@
             </ion-select>
           </ion-item>
 
-          <ion-item padding-top>
-            <ion-label color="dark" *ngIf="!cities"> {{'city-msg' | translate}} </ion-label>
-            <ion-select *ngIf="cities" #city="ngModel" ngModel okText="{{'ok' | translate}}"
+          <ion-item padding-top *ngIf="cities">
+            <!-- <ion-label color="dark" *ngIf="!cities"> {{'city-msg' | translate}} </ion-label> -->
+            <ion-select  #city="ngModel" ngModel okText="{{'ok' | translate}}"
               cancelText="{{'cancel' | translate}}" name="city" placeholder="{{dataShow.city}}" padding-start>
               <ion-select-option *ngFor="let city of cities" [value]="city.name">{{city.name}}
               </ion-select-option>
@@ -69,6 +72,7 @@
                   #street="ngModel" [ngClass]="{ 'is-invalid': !street.toutch && street.invalid }" required
                   padding-start minlength="3">
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! street.toutch && street.invalid">*</ion-note>
                 <!-- <ion-list *ngIf="! street.toutch && street.invalid" style="color: red; font-size: 12px;">
                     <ion-item lines="none" *ngIf="street.errors.required" padding-start>Street is required</ion-item>
                     <ion-item lines="none" *ngIf="street.errors.minlength" padding-start>Street must be at least 3
@@ -84,6 +88,7 @@
                   [ngClass]="{ 'is-invalid': !postal_code.toutch && postal_code.invalid }" required padding-start
                   minlength="3">
                 </ion-input>
+                <ion-note color="danger" slot="end" *ngIf="! postal_code.toutch && postal_code.invalid">*</ion-note>
                 <!-- <ion-list *ngIf="! postal_code.toutch && postal_code.invalid" style="color: red; font-size: 12px;">
                     <ion-item lines="none" *ngIf="postal_code.errors.required" padding-start>Postal Code is required
                     </ion-item>

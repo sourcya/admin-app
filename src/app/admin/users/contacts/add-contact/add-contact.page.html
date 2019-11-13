@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-      <ion-icon style="cursor: pointer;" slot="end" name="close" (click)="cancel()" padding-end></ion-icon>
+    <ion-icon style="cursor: pointer;" slot="end" name="close" (click)="cancel()" padding-end></ion-icon>
     <ion-title>{{dataShow.addContact}}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -52,12 +52,14 @@
               <ion-col align-self-left size-xs="12">
                 <ion-item padding-top>
                   <ion-input type="text" name="phone_num" placeholder="{{dataShow.phoneNum}}"
-                    [(ngModel)]="model.phone_num" #phone_num="ngModel" [ngClass]="{ 'is-invalid': !phone_num.toutch
-              &&
-              phone_num.invalid }" required padding-start minlength="3">
+                    [(ngModel)]="model.phone_num" #phone_num="ngModel"
+                    [ngClass]="{ 'is-invalid': !phone_num.toutch && phone_num.invalid }" required padding-start
+                    minlength="3">
                   </ion-input>
+                  <ion-note color="danger" slot="end">*</ion-note>
                 </ion-item>
               </ion-col>
+
               <!-- <ion-col align-self-left size-md="6"  size-xs="12">
           <ion-item padding-top>
             <ion-input type="text"
@@ -71,15 +73,17 @@
           </ion-item>
         </ion-col> -->
             </ion-row>
+
             <ion-row>
               <ion-col align-self-left size-xs="12">
                 <ion-item padding-top>
                   <ion-input name="user_email"
                     pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"
-                    maxlength="255" type="email" placeholder="{{dataShow.userEmail}}" [(ngModel)]="model.email"
-                    #user_email="ngModel" [ngClass]="{ 'is-invalid': !user_email.toutch &&
-                user_email.invalid }" required padding-start minlength="3">
+                    maxlength="255" type="email" placeholder="user@email.com" [(ngModel)]="model.email"
+                    #user_email="ngModel" [ngClass]="{ 'is-invalid': !user_email.toutch && user_email.invalid }"
+                    required padding-start minlength="3">
                   </ion-input>
+                  <ion-note color="danger" slot="end" *ngIf="! user_email.toutch && user_email.invalid">*</ion-note>
                 </ion-item>
               </ion-col>
             </ion-row>

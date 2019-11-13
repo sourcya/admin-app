@@ -13,13 +13,13 @@
         <ion-col size-md="9" size-lg="8" size-xs="12">
 
           <ion-item padding-top>
-            <ion-label>{{dataShow.name}} : </ion-label>
+            <ion-label>{{dataShow.name}} : <ion-note color="danger" slot="start">*</ion-note> </ion-label>
             <ion-input name="name" type="text" ngModel required>
             </ion-input>
           </ion-item>
 
           <ion-item padding-top>
-            <ion-label>{{dataShow.type}} : </ion-label>
+            <ion-label>{{dataShow.type}} : <ion-note color="danger" slot="start">*</ion-note> </ion-label>
             <ion-select ngModel name="type" placeholder="{{'select-one' | translate}}" okText="{{'ok' | translate}}"
               cancelText="{{'cancel' | translate}}" required>
               <ion-select-option *ngFor="let t of type" [value]="t.name">{{t.name}}
@@ -28,7 +28,7 @@
           </ion-item>
 
           <ion-item padding-top>
-            <ion-label>{{dataShow.assigned_for}} : </ion-label>
+            <ion-label>{{dataShow.assigned_for}} : <ion-note color="danger" slot="start">*</ion-note> </ion-label>
             <ion-select ngModel name="assigned_for" placeholder="{{'select-one' | translate}}"
               okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}" required padding-start>
               <ion-select-option *ngFor="let a of assigned_for" [value]="a.name">{{a.name}}
@@ -39,6 +39,7 @@
           <ion-item padding-top>
             <ion-label>
               {{dataShow.is_required}} :
+              <ion-note color="danger" slot="start">*</ion-note>
             </ion-label>
             <ion-radio-group ngModel name="is_required">
               <ion-item lines="none">
@@ -57,6 +58,7 @@
             <ion-list>
               <ion-label>
                 {{dataShow.keys}} :
+                <ion-note color="danger" slot="start">*</ion-note>
               </ion-label>
               <ion-item color="light" *ngFor="let count of keyNumbers; let idx = index" padding-top padding-bottom>
                 <ion-input name="keys[{{idx}}]" type="text" [(ngModel)]="keys[idx]" required></ion-input>

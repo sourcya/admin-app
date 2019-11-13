@@ -18,19 +18,24 @@
               <ion-select-option *ngFor="let country of countries" [value]="country.id">{{country.name}}
               </ion-select-option>
             </ion-select>
+            <ion-note color="danger" slot="end">*</ion-note>
           </ion-item>
-          <ion-item padding-top>
-            <ion-label color="dark" *ngIf="!states.length"> {{'state-msg' | translate}}</ion-label>
-            <ion-select *ngIf="states.length" ngModel name="state_id" placeholder="{{'address-state' | translate}}"
+
+          <ion-item padding-top  *ngIf="states.length">
+            <!-- <ion-label color="dark" *ngIf="!states.length"> {{'state-msg' | translate}}</ion-label> -->
+            <ion-select ngModel name="state_id" placeholder="{{'address-state' | translate}}"
               okText="{{'ok' | translate}}" cancelText="{{'cancel' | translate}}" required padding-start>
               <ion-select-option *ngFor="let state of states" [value]="state.id">{{state.name}}
               </ion-select-option>
             </ion-select>
+            <ion-note color="danger" slot="end">*</ion-note>
           </ion-item>
+
           <ion-item padding-top>
             <ion-input name="name" type="text" placeholder="{{'address-city' | translate}}" ngModel required
               padding-start minlength="3">
             </ion-input>
+            <ion-note color="danger" slot="end">*</ion-note>
           </ion-item>
 
           <ion-row>
