@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController, LoadingController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -36,11 +36,12 @@ export class AddAddressPage implements OnInit {
     user_email: this.translate.instant("address-user_email"),
   }
 
-  constructor(private loadingController: LoadingController,
+  constructor(
     private router: Router, private translate: TranslateService,
     private addressesServices: AddressesService,
     private toast: ToastService,
-    public modalController: ModalController) { }
+    public modalController: ModalController
+  ) { }
 
   ngOnInit() {
   }
@@ -57,100 +58,68 @@ export class AddAddressPage implements OnInit {
     this.states = [];
     this.cities = null;
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-      this.addressesServices.getCountries().subscribe((res) => {
-        // console.log(res);
-        for (let i = 0; i < res['data'].length; i++) {
-          if (res['data'][i].name == 'Saudi Arabia' || res['data'][i].name == 'Egypt') {
-            this.countries.push(res['data'][i].name)
-          }
+    this.addressesServices.getCountries().subscribe((res) => {
+      // console.log(res);
+      for (let i = 0; i < res['data'].length; i++) {
+        if (res['data'][i].name == 'Saudi Arabia' || res['data'][i].name == 'Egypt') {
+          this.countries.push(res['data'][i].name)
         }
-        loading.dismiss();
-      })
+      }
     });
   }
 
   changeCountry(ev) {
     this.states = [];
-    console.log(ev.target.value);
+    // console.log(ev.target.value);
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-      this.addressesServices.getCountries().subscribe((res) => {
-        // console.log(res);
-        for (let i = 0; i < res['data'].length; i++) {
-          if (res['data'][i].name == ev.target.value) {
-            this.codeCountry = res['data'][i].id;
-          }
+    this.addressesServices.getCountries().subscribe((res) => {
+      // console.log(res);
+      for (let i = 0; i < res['data'].length; i++) {
+        if (res['data'][i].name == ev.target.value) {
+          this.codeCountry = res['data'][i].id;
         }
+      }
 
-        this.addressesServices.getStates(this.codeCountry).subscribe((sta) => {
-          console.log(sta);
-          for (let i = 0; i < sta['data'].length; i++) {
-            this.states.push(sta['data'][i].name)
-          }
-          // console.log(this.states);
-          loading.dismiss();
-        })
-      })
+      this.addressesServices.getStates(this.codeCountry).subscribe((sta) => {
+        // console.log(sta);
+        for (let i = 0; i < sta['data'].length; i++) {
+          this.states.push(sta['data'][i].name)
+        }
+        // console.log(this.states);
+      });
+
     });
   }
 
 
   changeStates(ev) {
-    console.log(ev.target.value);
+    // console.log(ev.target.value);
     this.cities = null;
-
     let stateId;
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
 
-      this.addressesServices.getStates(this.codeCountry).subscribe(res => {
-        for (let i = 0; i < res['data'].length; i++) {
-          if (ev.target.value == res['data'][i].name) {
-            // console.log(res['data'][i].id);
-            stateId = res['data'][i].id;
-            break;
-          }
+    this.addressesServices.getStates(this.codeCountry).subscribe(res => {
+      for (let i = 0; i < res['data'].length; i++) {
+        if (ev.target.value == res['data'][i].name) {
+          // console.log(res['data'][i].id);
+          stateId = res['data'][i].id;
+          break;
         }
-        this.addressesServices.getCities(stateId).subscribe(cit => {
-          this.cities = cit['data'];
+      }
 
-          loading.dismiss();
-        })
-      })
+      this.addressesServices.getCities(stateId).subscribe(cit => {
+        this.cities = cit['data'];
+      });
+
     });
   }
 
 
   addAddress() {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
       this.addressesServices.addAdress(this.createAddress.value).subscribe((res) => {
-        loading.dismiss();
         this.toast.show(res['message'])
 
         this.cancel();
         this.router.navigate(['/admin/user/' + res['data'].user.id]);
-
-      }, (err) => {
-        // console.log(err);
-        loading.dismiss();
-        this.toast.show(err.error['errors'].name);
-
-      });
     });
   }
 

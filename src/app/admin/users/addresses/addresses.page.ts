@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, ModalController, NavParams } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { ToastService } from 'src/app/lib/services/toast.service';
 import { AddressesService } from './services/addresses.service';
 import { AddAddressPage } from './add-address/add-address.page';
 
@@ -19,7 +18,7 @@ export class AddressesPage implements OnInit {
 
   response: any;
 
-  userEmail:any;
+  userEmail: any;
 
   dataShow = {
     title: this.translate.instant("address-title"),
@@ -27,12 +26,12 @@ export class AddressesPage implements OnInit {
     country: this.translate.instant("address-country"),
   }
 
-  constructor(private loadingController: LoadingController,
+  constructor(
     private router: Router, private translate: TranslateService,
     private addressesServices: AddressesService,
-    private toast: ToastService,
     public navParams: NavParams,
-    public modalController: ModalController) { }
+    public modalController: ModalController
+  ) { }
 
 
   ngOnInit() {
@@ -49,50 +48,21 @@ export class AddressesPage implements OnInit {
     this.page = 1;
     this.addressesError = null;
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
+    this.userEmail = this.navParams.get('userEmail');
 
-      this.userEmail = this.navParams.get('userEmail');
-
-      this.addressesServices.getAddressesByUser(this.userEmail,this.page).subscribe(res => {
-        // console.log(res);
-        this.response = res;
-
-        for (let index = 0; index < this.response.data.length; index++) {
-          this.dataListPagination.push(this.response.data[index]);
-        }
-
-        loading.dismiss();
-
-      }, (err => {
-        // console.log(err);
-        loading.dismiss();
-        if (err.status === 404) {
-          // this.data.length = 0
-          this.addressesError = this.translate.instant('addresses-Error');
-        }
-      }));
-
-    });
+    this.getPosts(this.page);
   }
 
   getPosts(page) {
-    this.addressesServices.getAddressesByUser(this.userEmail,page).subscribe(res => {
+    this.addressesServices.getAddressesByUser(this.userEmail, page).subscribe(res => {
       // console.log(res);
       this.response = res;
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
+      for (let index = 0; index < res['data'].length; index++) {
+        this.dataListPagination.push(res['data'][index]);
       }
 
-    }, (err => {
-      if (err.status === 404) {
-        // this.data.length = 0
-        this.addressesError = this.translate.instant('addresses-Error');
-      }
-    }));
+    });
   }
 
 
@@ -141,22 +111,9 @@ export class AddressesPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.addressesError = null;
-    this.addressesServices.getAddressesByUser(this.userEmail,this.page).subscribe(res => {
-      this.response = res;
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
-      }
-
-      event.target.complete();
-
-    }, (err => {
-      event.target.complete();
-
-      if (err.status === 404) {
-        this.addressesError = this.translate.instant('addresses-Error');
-      }
-    }));
+    this.getPosts(this.page);
+    event.target.complete();
   }
 
 

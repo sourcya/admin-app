@@ -7,26 +7,27 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
-    <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
-        <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
-        </ion-refresher-content>
-      </ion-refresher> 
-      <ion-grid >
-        <ion-row>
-          <ion-col size="12" size-md="6" size-lg="4" *ngFor="let role of dataListPagination">
-            <ion-card routerLink="/admin/role/{{role.id}}" *ngIf=" role.name != 'Admin' && role.name != 'Client' && role.name != 'Agent' ">
-              <ion-card-header>
-                <ion-card-title>
-                    <ion-icon color="primary" name="lock" padding-end></ion-icon> {{role.name}} 
-                </ion-card-title>
-              </ion-card-header>
-                  <ion-card-content>
-                  </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-  
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
+    <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let role of dataListPagination">
+        <ion-card routerLink="/admin/role/{{role.id}}"
+          *ngIf=" role.name != 'Admin' && role.name != 'Client' && role.name != 'Agent' ">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon color="primary" name="lock" padding-end></ion-icon> {{role.name}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 
   <ion-grid *ngIf="roleError">
     <ion-row justify-content-center text-center>
@@ -41,16 +42,19 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="addRoles()">
-    <ion-fab-button size="small" color="primary" >
+    <ion-fab-button size="small" color="primary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-button size="small" color="primary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataPagination($event)">
-      <ion-infinite-scroll-content loadingText="{{'Loading-more-data'|translate}}">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    <ion-infinite-scroll-content loadingText="{{'Loading-more-data'|translate}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>

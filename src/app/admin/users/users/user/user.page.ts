@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingController, AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { AddressesPage } from 'src/app/admin/users/addresses/addresses.page';
 import { EditUserPage } from '../edit-user/edit-user.page';
@@ -21,7 +21,6 @@ export class UserPage implements OnInit {
   constructor(private userService: UsersService,
     private route: ActivatedRoute,
     public translate: TranslateService,
-    private loadingController: LoadingController,
     private toast: ToastService,
     private alertCtrl: AlertController,
     private router: Router,
@@ -38,20 +37,8 @@ export class UserPage implements OnInit {
   ionViewWillEnter() {
     this.dataRes = null;
 
-    this.loadingController.create({
-      message: this.translate.instant("loading")
-    }).then(loading => {
-      loading.present();
-
       this.userService.getUserId(this.userId).subscribe(res => {
         this.dataRes = res["data"];
-        loading.dismiss();
-      },
-        err => {
-          loading.dismiss();
-          this.toast.show(err.error.message)
-        }
-      );
     });
   }
 
@@ -108,22 +95,11 @@ export class UserPage implements OnInit {
 
             // console.log('Confirm Okay');
 
-            this.loadingController.create({
-              message: this.translate.instant('loading')
-            }).then((loading) => {
-              loading.present();
-
               this.userService.deleteUserId(this.userId).subscribe(res => {
-                loading.dismiss();
                 this.toast.show(res['message']);
                 this.router.navigate(['/admin/users'])
-              },
-                (err) => {
-                  loading.dismiss();
-                  this.toast.show(err.error.message)
-                }
-              );
             });
+
           }
         }
       ]
@@ -138,12 +114,7 @@ export class UserPage implements OnInit {
     this.userService.getUserId(this.userId).subscribe(res => {
       this.dataRes = res["data"];
       event.target.complete();
-    },
-      err => {
-        event.target.complete();
-        this.toast.show(err.error.message)
-      }
-    );
+    });
   }
 
 }

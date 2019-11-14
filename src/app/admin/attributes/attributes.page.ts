@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AddAttributesPage } from './add-attributes/add-attributes.page';
-import { ModalController, LoadingController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AttributesService } from './services/attributes.service';
 
@@ -27,8 +27,7 @@ export class AttributesPage implements OnInit {
   
   constructor(private translate: TranslateService,
     private attributesService: AttributesService, public router: Router,
-    public modalController: ModalController,
-    private loadingController: LoadingController,) { }
+    public modalController: ModalController, ) { }
 
   ngOnInit() {
   }
@@ -39,31 +38,7 @@ export class AttributesPage implements OnInit {
     this.page = 1;
     this.attributesError = null;
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-      this.attributesService.getAllAttributes(this.page).subscribe(res => {
-        // console.log(res);
-        this.response = res;
-
-        for (let index = 0; index < this.response.data.length; index++) {
-          this.dataListPagination.push(this.response.data[index]);
-        }
-
-        loading.dismiss();
-
-      }, (err => {
-        console.log(err);
-
-        loading.dismiss();
-        if (err.status === 404) {
-          // this.data.length = 0
-          this.attributesError = this.translate.instant('attributes-Error');
-        }
-      }));
-
-    });
+     this.getPosts(this.page);
   }
 
 
@@ -77,25 +52,17 @@ export class AttributesPage implements OnInit {
 
   getPosts(page) {
     this.attributesService.getAllAttributes(page).subscribe(res => {
-      // console.log(res);
       this.response = res;
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
+      for (let index = 0; index < res['data'].length; index++) {
+        this.dataListPagination.push(res['data'][index]);
       }
 
-    }, (err => {
-      console.log(err);
-
-      if (err.status === 404) {
-        // this.data.length = 0
-        this.attributesError = this.translate.instant('attributes-Error');
-      }
-    }));
+    });
   }
 
 
-  // //pagination
+  ////pagination
   loadDataPagination(event) {
     // console.log(this.dataListPagination);
     setTimeout(() => {
@@ -130,23 +97,11 @@ export class AttributesPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.attributesError = null;
-    this.attributesService.getAllAttributes(this.page).subscribe(res => {
-      // console.log(res);
-      this.response = res;
+   
+    this.getPosts(this.page);
 
-      for (let index = 0; index < this.response.data.length; index++) {
-        this.dataListPagination.push(this.response.data[index]);
-      }
-
-      event.target.complete();
-
-    }, (err => {
-      event.target.complete();
-
-      if (err.status === 404) {
-        this.attributesError = this.translate.instant('attributes-Error');
-      }
-    }));
+    event.target.complete();
+    
   }
 
   

@@ -14,19 +14,19 @@
     <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
     </ion-refresher-content>
   </ion-refresher>
-  
+
   <ion-grid *ngIf="data">
     <ion-row justify-content-center>
       <ion-col size-md="8" size-xs="12">
         <ion-list *ngFor="let city of data">
           <ion-item lines="full" padding-top>
-              <ion-icon name="create" slot="end" color="primary" (click)="edit(city.id)"></ion-icon>
-              <!-- <ion-icon name="trash" slot="end" color="danger" (click)="delete(city.id)"></ion-icon> -->
-              <ion-label>
-                 <h2> {{dataShow.city}} : {{city.name}} </h2>
-                 <h4> {{dataShow.state}} : {{city.state.name}} </h4>
-                </ion-label>
-              <!-- <ion-label>{{dataShow.state}} : {{city.state}} </ion-label> -->
+            <ion-icon name="create" slot="end" color="primary" (click)="edit(city.id)"></ion-icon>
+            <!-- <ion-icon name="trash" slot="end" color="danger" (click)="delete(city.id)"></ion-icon> -->
+            <ion-label>
+              <h2> {{dataShow.city}} : {{city.name}} </h2>
+              <h4> {{dataShow.state}} : {{city.state.name}} </h4>
+            </ion-label>
+            <!-- <ion-label>{{dataShow.state}} : {{city.state}} </ion-label> -->
           </ion-item>
         </ion-list>
       </ion-col>
@@ -34,29 +34,32 @@
   </ion-grid>
 
   <ion-grid *ngIf="citiesError">
-      <ion-row justify-content-center text-center>
-        <ion-col size-xs="10" size-md="8" text-center>
-          <ion-card margin>
-            <ion-card-content>
-              <ion-list>
-                <ion-label color="danger"> {{citiesError}}</ion-label>
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    
+    <ion-row justify-content-center text-center>
+      <ion-col size-xs="10" size-md="8" text-center>
+        <ion-card margin>
+          <ion-card-content>
+            <ion-list>
+              <ion-label color="danger"> {{citiesError}}</ion-label>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button size="small" mini (click)="addcity()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button size="small" mini>
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+    <ion-fab-button size="small" mini (click)="addcity()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button size="small" mini>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataPagination($event)">
+    <ion-infinite-scroll-content loadingText="{{'Loading-more-data'|translate}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

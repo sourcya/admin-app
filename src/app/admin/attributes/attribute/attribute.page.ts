@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttributesService } from '../services/attributes.service';
@@ -60,7 +60,6 @@ export class AttributePage implements OnInit {
 
   constructor(private translate: TranslateService,
     private attributesService: AttributesService,
-    private loadingController: LoadingController,
     private toast: ToastService, private alertCtrl: AlertController,
     private route: ActivatedRoute,
     private router: Router, ) { }
@@ -90,10 +89,6 @@ export class AttributePage implements OnInit {
     this.data = null;
     this.showDataKeys = [];
 
-    this.loadingController.create({
-      message: this.translate.instant("loading")
-    }).then(loading => {
-      loading.present();
       this.attributesService.getAtrributeId(this.attributeId).subscribe(res => {
         this.data = res["data"];
         this.num = this.data.keys.length;
@@ -106,34 +101,16 @@ export class AttributePage implements OnInit {
         for (let index = 0; index < res['data'].keys.length; index++) {
           this.showDataKeys.push(res['data'].keys[index]);
         }
-        console.log(this.showDataKeys.length);
-        
-
-        loading.dismiss();
-      },
-        err => {
-          loading.dismiss();
-          this.toast.show(err.error.message)
-        }
-      );
+        // console.log(this.showDataKeys.length);
     });
   }
 
 
   edit(attribute) {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-
       if(this.keys.length == 0){
         this.keys = this.showDataKeys;
       }
-
       // console.log("keys", this.keys);
-
-
       let data: any = {
         assigned_for: attribute.value.assigned_for,
         name: attribute.value.name,
@@ -143,15 +120,8 @@ export class AttributePage implements OnInit {
       };
 
       this.attributesService.updateAtrributeId(this.attributeId, data).subscribe(res => {
-        loading.dismiss();
-
         this.toast.show(res['message']);
         this.router.navigate(['/admin/attributes'])
-      }, err => {
-        loading.dismiss();
-
-        this.toast.show(err.error.message)
-      })
     });
 
   }
@@ -173,22 +143,11 @@ export class AttributePage implements OnInit {
 
             // console.log('Confirm Okay');
 
-            this.loadingController.create({
-              message: this.translate.instant('loading')
-            }).then((loading) => {
-              loading.present();
-
               this.attributesService.deleteAtrributeId(this.attributeId).subscribe(res => {
-                loading.dismiss();
                 this.toast.show(res['message']);
                 this.router.navigate(['/admin/attributes'])
-              },
-                (err) => {
-                  loading.dismiss();
-                  this.toast.show(err.error.message)
-                }
-              );
             });
+            
           }
         }
       ]

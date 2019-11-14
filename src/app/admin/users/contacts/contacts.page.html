@@ -5,27 +5,30 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
+
   <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="ionRefresh($event)">
     <ion-refresher-content refreshingText="{{'Refreshing'|translate}}">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-grid>
+
+  <ion-grid *ngIf="dataListPagination">
     <ion-row>
       <ion-col size="12" size-md="6" size-lg="6" *ngFor="let contact of dataListPagination">
         <ion-card (click)="openContact(contact?.id)">
           <ion-card-header>
             <ion-card-title>
-              <ion-icon color="primary" name="person"></ion-icon> {{contact?.user.first_name}}
-              {{contact?.user.last_name}}
+              <ion-icon color="primary" name="person"></ion-icon> {{contact.user?.first_name}}
+              {{contact.user?.last_name}}
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-icon color="primary" name="call"></ion-icon> {{contact?.phone_num.phone_num}}
+            <ion-icon color="primary" name="call"></ion-icon> {{contact.phone_num.phone_num}}
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+
   <ion-grid *ngIf="contactsError">
     <ion-row justify-content-center text-center>
       <ion-col size-xs="10" size-md="8" text-center>

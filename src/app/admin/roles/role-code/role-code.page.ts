@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { NgForm } from '@angular/forms';
 import { RoleService } from '../service/role.service';
@@ -40,7 +40,6 @@ export class RoleCodePage implements OnInit {
     private alertCtrl: AlertController,
     private toast: ToastService,
     private router: Router,
-    private loadingController: LoadingController,
     private roleService: RoleService
   ) { }
 
@@ -49,7 +48,7 @@ export class RoleCodePage implements OnInit {
       // console.log(params.get("id"));
       if (params.get('code')) {
         this.roleId = params.get('code');
-        console.log(this.roleId);
+        // console.log(this.roleId);
       }
     });
 
@@ -57,56 +56,31 @@ export class RoleCodePage implements OnInit {
 
 
   ionViewWillEnter() {
-    this.roleService.getRoleId(this.roleId).subscribe(res => {
-      console.log(res)
-    })
     this.data = null;
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then(loading => {
-        loading.present();
-        this.roleService.getAllPermissions().subscribe(res => {
-            loading.dismiss();
-            console.log(res);
-            this.permission = res['data'];
-            this.roleService.getRoleId(this.roleId).subscribe(res => {
-                loading.dismiss();
-                this.data = res['data'];
-                // console.log(this.data);
-                this.permissions = this.data.permissions;
-                this.editRole.setValue({
-                  name: this.data.name,
-                })
-              },
-              err => {
-                loading.dismiss();
-                this.toast.show(err.error.message);
-              }
-            );
-          })
+
+    this.roleService.getAllPermissions().subscribe(per => {
+      // console.log(per);
+      this.permission = per['data'];
+
+      this.roleService.getRoleId(this.roleId).subscribe(res => {
+        this.data = res['data'];
+        // console.log(this.data);
+        this.permissions = this.data.permissions;
+        this.editRole.setValue({
+          name: this.data.name,
+        })
 
       });
+    });
   }
 
   edit(contact) {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-      this.roleService.editRoleId(this.roleId, this.editRole.value).subscribe(res => {
-        loading.dismiss();
-
-        this.toast.show(res['message']);
-        this.router.navigate(['/admin/roles']);
-      }, err => {
-        loading.dismiss();
-
-        this.toast.show(err.error['errors'].name);
-      });
+    this.roleService.editRoleId(this.roleId, this.editRole.value).subscribe(res => {
+      this.toast.show(res['message']);
+      this.router.navigate(['/admin/roles']);
     });
-
   }
+
 
   deleteRole() {
     this.alertCtrl.create({
@@ -123,23 +97,11 @@ export class RoleCodePage implements OnInit {
           text: this.translate.instant('delete'),
           handler: () => {
 
-            this.loadingController.create({
-              message: this.translate.instant('loading')
-            }).then((loading) => {
-              loading.present();
-
-              this.roleService.deleteRole(this.roleId).subscribe(res => {
-                loading.dismiss();
-                this.toast.show(res['message']);
-                this.router.navigate(['/admin/roles']);
-              },
-                (err) => {
-                  console.log(err)
-                  loading.dismiss();
-                    this.toast.show(err.error['errors'].name);
-                }
-              );
+            this.roleService.deleteRole(this.roleId).subscribe(res => {
+              this.toast.show(res['message']);
+              this.router.navigate(['/admin/roles']);
             });
+
           }
         }
       ]

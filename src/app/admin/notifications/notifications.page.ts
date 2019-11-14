@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { NotificationsService } from './services/notifications.service';
@@ -11,7 +10,6 @@ import { NotificationsService } from './services/notifications.service';
   styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit {
-  data: any = [];
   page = 1;
   message: any;
   thereData = false;
@@ -26,8 +24,7 @@ export class NotificationsPage implements OnInit {
     private notificationsServices: NotificationsService,
     private toast: ToastService,
     public router: Router,
-    private translate: TranslateService,
-    private loadingController: LoadingController) { }
+    private translate: TranslateService ) { }
 
   ngOnInit() {
   }
@@ -38,32 +35,7 @@ export class NotificationsPage implements OnInit {
     this.page = 1;
     this.errorMsg = null;
 
-    this.loading = this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-      this.notificationsServices.getNotification(this.page).subscribe(res => {        
-        this.response = res;
-
-        let resp: any = res['data'];
-        this.data = resp;
-
-        if (this.data.length == 0) {
-          this.errorMsg = this.translate.instant('notification-No');
-        }
-        else {
-          //To display the first page  in the beginning and in pagination display the other pages.
-          for (let index = 0; index < this.data.length; index++) {
-            this.dataListPagination.push(this.data[index]);
-          }
-        }
-
-        loading.dismiss();
-
-      });
-
-    });
+     this.getAllNotification(this.page)
   }
 
 
@@ -72,16 +44,13 @@ export class NotificationsPage implements OnInit {
     this.notificationsServices.getNotification(page).subscribe(res => {
       this.response = res;
 
-      let resp: any = res['data'];
-      this.data = resp;
-
-      if (this.data.length == 0) {
+      if (res['data'].length == 0) {
         this.errorMsg = this.translate.instant('notification-No');
       }
       else {
         //To display the first page  in the beginning and in pagination display the other pages.
-        for (let index = 0; index < this.data.length; index++) {
-          this.dataListPagination.push(this.data[index]);
+        for (let index = 0; index < res['data'].length; index++) {
+          this.dataListPagination.push(res['data'][index]);
         }
       }
     });
@@ -89,87 +58,30 @@ export class NotificationsPage implements OnInit {
 
 
   readNotification(id: number, idTask: number, actionVerb: string) {
-    this.loading = this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
       this.notificationsServices.readNotification(id, 'notification').subscribe(res => {
-        let resp: any = res;
-        this.data = resp['data'];
         // console.log(id,idTask,actionVerb);
+        this.toast.show(res['message']);
 
         this.dataListPagination = [];
-        this.notificationsServices.getNotification(this.page).subscribe(info => {
-          this.response = info;
-
-          let resp: any = info['data'];
-          this.data = resp;
-
-          if (this.data.length == 0) {
-            this.errorMsg = this.translate.instant('notification-No');
-          }
-          else {
-            //To display the first page  in the beginning and in pagination display the other pages.
-            for (let index = 0; index < this.data.length; index++) {
-              this.dataListPagination.push(this.data[index]);
-            }
-          }
-
-          loading.dismiss();
-          this.toast.show(res['message']);
-
-        });
+        this.page = 1;
+        this.errorMsg = null;
+        this.getAllNotification(this.page);
 
         // this.router.navigate([`/${actionVerb}/${idTask}/show`])
       })
       // console.log(id)
-
-    });
   }
 
 
   readAll() {
-    this.loading = this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
       this.notificationsServices.readAllNotification('read all notifications').subscribe(res => {
-        let resp: any = res;
-        this.data = resp['data'];
+        this.toast.show(res['message']);
 
         this.dataListPagination = [];
-        this.notificationsServices.getNotification(this.page).subscribe(res => {
-          this.response = res;
+        this.page = 1;
+        this.errorMsg = null;
+        this.getAllNotification(this.page);
 
-          let resp: any = res['data'];
-          this.data = resp;
-
-          if (this.data.length == 0) {
-            this.errorMsg = this.translate.instant('notification-No');
-          }
-          else {
-            //To display the first page  in the beginning and in pagination display the other pages.
-            for (let index = 0; index < this.data.length; index++) {
-              this.dataListPagination.push(this.data[index]);
-            }
-          }
-
-          loading.dismiss();
-          this.toast.show(res['message']);
-
-        });
-
-      },
-        (err) => {
-          loading.dismiss();
-
-          // if (err.status === 404) {
-          //   this.message = err;
-          this.toast.show(err.error.message);
-          // }
-        });
     });
   }
 
@@ -206,25 +118,10 @@ export class NotificationsPage implements OnInit {
     this.dataListPagination = [];
     this.page = 1;
     this.errorMsg = null;
-    this.notificationsServices.getNotification(this.page).subscribe(res => {
-      this.response = res;
 
-      let resp: any = res['data'];
-      this.data = resp;
+    this.getAllNotification(this.page);
 
-      if (this.data.length == 0) {
-        this.errorMsg = this.translate.instant('notification-No');
-        event.target.complete();
-      }
-      else {
-        //To display the first page  in the beginning and in pagination display the other pages.
-        for (let index = 0; index < this.data.length; index++) {
-          this.dataListPagination.push(this.data[index]);
-        }
-        event.target.complete();
-      }
-
-    });
+    event.target.complete();
 
     // }, 2000);
   }

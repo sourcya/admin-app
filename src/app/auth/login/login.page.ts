@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from 'src/app/lib/services/toast.service';
 
@@ -17,9 +15,7 @@ export class LoginPage implements OnInit {
 
   constructor(private auth: AuthService,
     private router: Router,
-    private toast: ToastService,
-    private translate: TranslateService,
-    private loadingController: LoadingController) { }
+    private toast: ToastService,) { }
 
   ngOnInit() {
     localStorage.removeItem('token');
@@ -28,26 +24,14 @@ export class LoginPage implements OnInit {
     localStorage.removeItem('roles');
   }
 
-  register() {
-    this.router.navigateByUrl('/register');
-  }
-
-  openPrivacy() {
-    this.router.navigateByUrl('/admin/about');
-  }
-
   loginUser() {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
+  
       this.auth.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((res) => {
 
         localStorage.setItem('token', res['token']);
         localStorage.setItem('username', (res['data'].first_name + " " + res['data'].last_name));
         localStorage.setItem('userId', res['data'].id);
         localStorage.setItem('roles', JSON.stringify(res['data'].roles));
-        loading.dismiss();
 
         this.toast.show(res['message']);
         console.log(JSON.parse(localStorage.getItem('roles')));
@@ -61,13 +45,10 @@ export class LoginPage implements OnInit {
             this.toast.show("User Does not have a right Role");
           }
         }
-
-      },
-        (err) => {
-          loading.dismiss();
-          this.toast.show(err.error.message);
-        });
     });
+
   }
+
+  
 
 }

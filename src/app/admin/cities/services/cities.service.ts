@@ -11,8 +11,8 @@ export class CitiesService {
 
   constructor(public http: HttpClient) { }
 
-  getAllCities() {
-    return this.http.get(apiUrl + 'admin/cities');
+  getAllCities(page) {
+    return this.http.get(apiUrl + 'admin/cities?page=' + page);
   }
   postCity(data) {
     return this.http.post(apiUrl + 'admin/cities', data);

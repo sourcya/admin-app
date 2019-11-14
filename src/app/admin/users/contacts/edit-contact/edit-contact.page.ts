@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { ToastService } from 'src/app/lib/services/toast.service';
 import { ContactsService } from '../service/contacts.service';
 import { NgForm } from '@angular/forms';
@@ -32,7 +32,6 @@ export class EditContactPage implements OnInit {
     private alertCtrl: AlertController,
     private toast: ToastService,
     private router: Router,
-    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {
@@ -40,7 +39,7 @@ export class EditContactPage implements OnInit {
       // console.log(params.get("id"));
       if (params.get('id')) {
         this.contactId = params.get('id');
-        console.log(this.contactId);
+        // console.log(this.contactId);
       }
     });
   }
@@ -49,39 +48,20 @@ export class EditContactPage implements OnInit {
   ionViewWillEnter() {
     this.data = null;
 
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then(loading => {
-      loading.present();
-      this.contactService.getContactId(this.contactId).subscribe(res => {
-        loading.dismiss();
-        this.data = res['data'];
-        console.log(this.data);
-        this.editContact.setValue({
-          phone_num: this.data.phone_num.phone_num
-        })
-      }, err => {
-        loading.dismiss();
-        if (err.status === 404) {
-        }
+    this.contactService.getContactId(this.contactId).subscribe(res => {
+      this.data = res['data'];
+      // console.log(this.data);
+      this.editContact.setValue({
+        phone_num: this.data.phone_num.phone_num
       })
+
     });
   }
 
   edit(contact) {
-    this.loadingController.create({
-      message: this.translate.instant('loading')
-    }).then((loading) => {
-      loading.present();
-
-      this.contactService.editContactId(this.contactId, this.editContact.value).subscribe(res => {
-        loading.dismiss();
-        this.toast.show(this.translate.instant('contact-update'));
-        this.router.navigate(['/admin/user/' + this.data.user.id]);
-      }, err => {
-        loading.dismiss();
-        this.toast.show(this.translate.instant('internal-server'));
-      });
+    this.contactService.editContactId(this.contactId, this.editContact.value).subscribe(res => {
+      this.toast.show(res['message']);
+      this.router.navigate(['/admin/user/' + this.data.user.id]);
     });
 
   }
@@ -101,25 +81,11 @@ export class EditContactPage implements OnInit {
           text: this.translate.instant('delete'),
           handler: () => {
 
-
-
-            this.loadingController.create({
-              message: this.translate.instant('loading')
-            }).then((loading) => {
-              loading.present();
-
-              this.contactService.deleteContact(this.contactId).subscribe(res => {
-                const resp = res;
-                loading.dismiss();
-                this.toast.show(this.translate.instant('success-deleted'));
-                this.router.navigate(['/admin/user/' + this.data.user.id]);
-              },
-                (err) => {
-                  loading.dismiss();
-                  this.toast.show(err.error.message)
-                }
-              );
+            this.contactService.deleteContact(this.contactId).subscribe(res => {
+              this.toast.show(res['message']);
+              this.router.navigate(['/admin/user/' + this.data.user.id]);
             });
+
           }
         }
       ]
