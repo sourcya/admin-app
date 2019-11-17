@@ -75,6 +75,10 @@ const routes: Routes = [
         path: 'services',
         loadChildren: 'src/app/admin/orders/order-services/order-services.module#OrderServicesPageModule'
       },
+      {
+        path: 'upload-file',
+        loadChildren: 'src/app/admin/upload-file/upload-file.module#UploadFilePageModule'
+      },
 
     ]
   }

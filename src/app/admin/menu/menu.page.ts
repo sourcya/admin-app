@@ -65,6 +65,11 @@ export class MenuPage implements OnInit {
       icon: 'briefcase'
     },
     {
+      title: 'upload-file',
+      url: '/admin/upload-file',
+      icon: 'cloud-upload'
+    },
+    {
       title: 'Notifications',
       url: '/admin/notifications',
       icon: 'notifications-outline'
