@@ -182,9 +182,11 @@
 
     "logout-message":"Logout From ?",
     "allDevice":"All Devices",
-    "thisDevice":"this Device"
+    "thisDevice":"this Device",
 
-   
+    "upload-file":"Upload File",
+    "UploadFileisrequired":"Upload File is required" ,
+    "uploadFromDevice":"Upload From Your Device "  
 
     
 }

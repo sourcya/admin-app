@@ -184,7 +184,11 @@
 
     "logout-message":"الخروج من ؟",
     "allDevice":"كل الاجهزة",
-    "thisDevice":"هذا الجهاز"
+    "thisDevice":"هذا الجهاز",
+
+    "upload-file":"تحميل ملف",
+    "UploadFileisrequired":"هذا الحقل مطلوب",
+    "uploadFromDevice":"تحميل من جهازك"  
 
 
 }
